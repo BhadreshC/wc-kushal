@@ -1,0 +1,378 @@
+<div class="announcement_bar d-md-block d-none wrap_block text-center">
+  <div class="announce_sec">
+    {%- if section.settings.announcement != '' -%}<p class="text-light">{{ section.settings.announcement }}</p>{%- endif -%}
+  </div>
+</div>
+<header class="wrap_block head_section">
+  <div class="row">
+    <div class="text-left col-md-4 menu_bar">
+      <ul class="menu_left_mb d-md-none d-flex">
+        <li>
+          <a href="#">
+            <svg width="20" height="13" viewBox="0 0 20 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.1667 0H0V1.3H19.1667V0Z" fill="black"/>
+              <path d="M19.1667 5.83398H0V7.13398H19.1667V5.83398Z" fill="black"/>
+              <path d="M19.1667 11.666H0V12.966H19.1667V11.666Z" fill="black"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 19L15 15M9 17C11.1217 17 13.1566 16.1571 14.6569 14.6569C16.1571 13.1566 17 11.1217 17 9C17 6.87827 16.1571 4.84344 14.6569 3.34315C13.1566 1.84285 11.1217 1 9 1C6.87827 1 4.84344 1.84285 3.34315 3.34315C1.84285 4.84344 1 6.87827 1 9C1 11.1217 1.84285 13.1566 3.34315 14.6569C4.84344 16.1571 6.87827 17 9 17V17Z" stroke="black"></path>
+            </svg>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="w-100 d-md-block d-none">
+        {% assign header = section.settings.menu %}
+        {%- for link in linklists.header.links -%}
+        {%- assign third_menu = false -%}
+
+        {% if link.links != blank %}
+        {% if link.levels == 2 %}
+        {%- assign third_menu = true -%}
+        {% endif %}
+        {% endif %}
+
+        {%- if link.links != blank -%}  
+        {% if third_menu %}   
+        <li class="mega_menu {% if link.active %}active{% endif %}">
+          <a href="{{ link.url }}" class="main_menu">
+            {{ link.title }}
+          </a>
+          {%- if link.links != blank -%}
+          <ul class="child_menu">
+            
+            <li class="col-lg-6 {% if childlink.active %}active{% endif %}">
+              {% for childlink in link.links %}
+              <a href="{{ childlink.url }}" class="child_title">
+                {{ childlink.title }}	
+              </a>
+              {%- if childlink.links != blank -%}
+              <ul class="grand_child">
+                {%- for grandchild in childlink.links -%}
+                <li class="{% if grandchild.active %}active{% endif %}">
+                  <a href="{{ grandchild.url }}">
+                    {{ grandchild.title }}
+                  </a>
+                </li>
+                {%- endfor -%}
+              </ul>
+              {%- endif -%}
+              {%- endfor -%}
+            </li>
+
+            {%- for block in section.blocks -%}
+            {%- assign block_title = block.settings.title | handle -%}
+            {%- assign title = link.title | handle -%}
+            {%- if title == block_title -%}
+            <li class="col-lg-3 menu_img text-center">
+              <figure class="m-0">
+                <img src="{{ block.settings.image | img_url:'360x' }}" />
+              </figure>
+              <div class="menu_img_des text_{{ block.settings.alignment }}">
+                {%- if block.settings.detail != '' -%}<p>{{ block.settings.detail }}</p>{%- endif -%}
+                {%- if block.settings.btn != '' -%}<a href="#">{{ block.settings.btn }}</a>{%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+        </li>
+        {%- endif -%}
+
+        {%- else -%}
+        <li class="single_menubar {% if link.active %}active{% endif %}">
+          <a href="{{ link.url }}" class="main_menu">
+            {{ link.title }}
+          </a>
+        </li>
+        {%- endif -%}
+        {% endfor %}
+      </ul>
+
+      {%- comment -%}
+      <ul class="w-100 d-md-block d-none">
+        {% assign header = section.settings.menu %}
+        {%- for link in linklists.header.links -%}
+        {%- assign third_menu = false -%}
+
+        {% if link.links != blank %}
+        {% if link.levels == 2 %}
+        {%- assign third_menu = true -%}
+        {% endif %}
+        {% endif %}
+
+        {%- if link.links != blank -%}  
+        {% if third_menu %}   
+        <li class="mega_menu {% if link.active %}active{% endif %}">
+          <a href="{{ link.url }}" class="main_menu">
+            {{ link.title }}
+          </a>
+          {%- if link.links != blank -%}
+          <ul class="child_menu">
+            {% for childlink in link.links %}
+            <li class="col-lg-2 {% if childlink.active %}active{% endif %}">
+              <a href="{{ childlink.url }}" class="child_title">
+                {{ childlink.title }}	
+              </a>
+              {%- if childlink.links != blank -%}
+              <ul class="grand_child">
+                {%- for grandchild in childlink.links -%}
+                <li class="{% if grandchild.active %}active{% endif %}">
+                  <a href="{{ grandchild.url }}">
+                    {{ grandchild.title }}
+                  </a>
+                </li>
+                {%- endfor -%}
+              </ul>
+              {%- endif -%}
+            </li>
+            {%- endfor -%}
+
+            {%- for block in section.blocks -%}
+            {%- assign block_title = block.settings.title | handle -%}
+            {%- assign title = link.title | handle -%}
+            {%- if title == block_title -%}
+            <li class="col-lg-3 menu_img text-center">
+              <figure class="m-0">
+                <img src="{{ block.settings.image | img_url:'360x' }}" />
+              </figure>
+              <div class="menu_img_des text_{{ block.settings.alignment }}">
+                {%- if block.settings.detail != '' -%}<p>{{ block.settings.detail }}</p>{%- endif -%}
+                {%- if block.settings.btn != '' -%}<a href="#">{{ block.settings.btn }}</a>{%- endif -%}
+              </div>
+            </li>
+            {%- endif -%}
+            {%- endfor -%}
+          </ul>
+          {%- endif -%}
+        </li>
+        {%- endif -%}
+
+        {%- else -%}
+        <li class="single_menubar {% if link.active %}active{% endif %}">
+          <a href="{{ link.url }}" class="main_menu">
+            {{ link.title }}
+          </a>
+        </li>
+        {%- endif -%}
+        {% endfor %}
+      </ul>
+      {%- endcomment -%}
+      
+    </div>
+
+    <div class="col-md-4 text-center">
+      <a href="{{ routes.root_url }}" class="site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}" data-image-loading-animation>
+        {% capture logo_alt %}{{ section.settings.logo.alt | default: shop.name }}{% endcapture %}
+        <img class="lazyload js"
+             src="{{ section.settings.logo | img_url: '300x300' }}"
+             data-src="{{ img_url }}"
+             data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+             data-aspectratio="{{ section.settings.logo.aspect_ratio }}"
+             data-sizes="auto"
+             alt="{{ logo_alt | escape }}"
+             style="max-width: {{ section.settings.logo_max_width }}px;">
+        <noscript>
+          {% capture image_size %}{{ section.settings.logo_max_width | escape }}x{% endcapture %}
+          <img src="{{ section.settings.logo | img_url: image_size }}"
+               srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+               alt="{{ section.settings.logo.alt | default: shop.name }}"
+               style="max-width: {{ section.settings.logo_max_width }}px;">
+        </noscript>
+      </a>
+    </div>
+
+    <div class="col-md-4 head_right">
+
+      <ul class="menu_right_mb d-flex d-md-none">
+        <li>
+          <a href="#">
+            <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.8401 4.60999C20.3294 4.099 19.7229 3.69364 19.0555 3.41708C18.388 3.14052 17.6726 2.99817 16.9501 2.99817C16.2276 2.99817 15.5122 3.14052 14.8448 3.41708C14.1773 3.69364 13.5709 4.099 13.0601 4.60999L12.0001 5.66999L10.9401 4.60999C10.4293 4.09915 9.82282 3.69393 9.15537 3.41746C8.48792 3.141 7.77256 2.9987 7.05012 2.9987C6.32768 2.9987 5.61231 3.141 4.94487 3.41746C4.27742 3.69393 3.67096 4.09915 3.16012 4.60999C2.64928 5.12084 2.24405 5.72729 1.96759 6.39474C1.69112 7.06219 1.54883 7.77755 1.54883 8.49999C1.54883 9.22243 1.69112 9.9378 1.96759 10.6052C2.24405 11.2727 2.64928 11.8792 3.16012 12.39L4.22012 13.45L12.0001 21.23L19.7801 13.45L20.8401 12.39C21.3511 11.8792 21.7565 11.2728 22.033 10.6053C22.3096 9.93789 22.4519 9.22248 22.4519 8.49999C22.4519 7.77751 22.3096 7.0621 22.033 6.39464C21.7565 5.72718 21.3511 5.12075 20.8401 4.60999V4.60999Z" stroke="black"></path>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="#" class="bag_svg">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 321.2 321.2" style="enable-background:new 0 0 321.2 321.2;" xml:space="preserve">
+              <path d="M306.4,313.2l-24-223.6c-0.4-3.6-3.6-6.4-7.2-6.4h-44.4V69.6c0-38.4-31.2-69.6-69.6-69.6c-38.4,0-69.6,31.2-69.6,69.6    v13.6H46c-3.6,0-6.8,2.8-7.2,6.4l-24,223.6c-0.4,2,0.4,4,1.6,5.6c1.2,1.6,3.2,2.4,5.2,2.4h278c2,0,4-0.8,5.2-2.4    C306,317.2,306.8,315.2,306.4,313.2z M223.6,123.6c3.6,0,6.4,2.8,6.4,6.4c0,3.6-2.8,6.4-6.4,6.4c-3.6,0-6.4-2.8-6.4-6.4    C217.2,126.4,220,123.6,223.6,123.6z M106,69.6c0-30.4,24.8-55.2,55.2-55.2c30.4,0,55.2,24.8,55.2,55.2v13.6H106V69.6z     M98.8,123.6c3.6,0,6.4,2.8,6.4,6.4c0,3.6-2.8,6.4-6.4,6.4c-3.6,0-6.4-2.8-6.4-6.4C92.4,126.4,95.2,123.6,98.8,123.6z M30,306.4    L52.4,97.2h39.2v13.2c-8,2.8-13.6,10.4-13.6,19.2c0,11.2,9.2,20.4,20.4,20.4c11.2,0,20.4-9.2,20.4-20.4c0-8.8-5.6-16.4-13.6-19.2    V97.2h110.4v13.2c-8,2.8-13.6,10.4-13.6,19.2c0,11.2,9.2,20.4,20.4,20.4c11.2,0,20.4-9.2,20.4-20.4c0-8.8-5.6-16.4-13.6-19.2V97.2    H270l22.4,209.2H30z"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+
+      <div class="search_items w-100">
+        <div class="w-75 float-right">
+          <form class="search" action="/search" method="get"> 
+            <a href="#" class="search_svg">
+              <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 19L15 15M9 17C11.1217 17 13.1566 16.1571 14.6569 14.6569C16.1571 13.1566 17 11.1217 17 9C17 6.87827 16.1571 4.84344 14.6569 3.34315C13.1566 1.84285 11.1217 1 9 1C6.87827 1 4.84344 1.84285 3.34315 3.34315C1.84285 4.84344 1 6.87827 1 9C1 11.1217 1.84285 13.1566 3.34315 14.6569C4.84344 16.1571 6.87827 17 9 17V17Z" stroke="black"></path>
+              </svg>
+            </a>       
+            <input type="text" name="q" class="search_box" autocomplete="off" placeholder="type of search..." value="{{ search.terms | escape }}">
+            <button type="submit" class="search_arrow">
+              <svg width="13" height="16" viewBox="0 0 13 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.49996 0.999999L12.0416 8L6.49996 15M0.958294 8L12.0416 8L0.958294 8Z" stroke="black"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <ul class="w-100 head_right text-right d-md-block d-none">
+        <li>
+          <a href="#" id="search">
+            <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 19L15 15M9 17C11.1217 17 13.1566 16.1571 14.6569 14.6569C16.1571 13.1566 17 11.1217 17 9C17 6.87827 16.1571 4.84344 14.6569 3.34315C13.1566 1.84285 11.1217 1 9 1C6.87827 1 4.84344 1.84285 3.34315 3.34315C1.84285 4.84344 1 6.87827 1 9C1 11.1217 1.84285 13.1566 3.34315 14.6569C4.84344 16.1571 6.87827 17 9 17V17Z" stroke="black"></path>
+            </svg>
+          </a>
+          <a href="#">search</a>
+        </li>
+        <li class="account">
+          <a href="#" class="register">
+            <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.7802 7.09C15.7802 7.83761 15.5585 8.56844 15.1432 9.19005C14.7278 9.81167 14.1375 10.2962 13.4468 10.5823C12.7561 10.8684 11.996 10.9432 11.2628 10.7974C10.5295 10.6515 9.85599 10.2915 9.32735 9.76286C8.79871 9.23422 8.4387 8.56069 8.29285 7.82744C8.147 7.09419 8.22185 6.33416 8.50795 5.64345C8.79405 4.95275 9.27854 4.36239 9.90016 3.94704C10.5218 3.53169 11.2526 3.31 12.0002 3.31C13.0027 3.31 13.9642 3.70825 14.6731 4.41713C15.382 5.12602 15.7802 6.08748 15.7802 7.09V7.09Z" stroke="black" stroke-linecap="round"></path>
+              <path d="M20.3099 20.69C20.3099 18.4861 19.4344 16.3724 17.876 14.8139C16.3176 13.2555 14.2039 12.38 11.9999 12.38C9.79599 12.38 7.68231 13.2555 6.12388 14.8139C4.56546 16.3724 3.68994 18.4861 3.68994 20.69" stroke="black" stroke-linecap="round"></path>
+            </svg>
+          </a>
+          <a href="#" class="register">account</a>
+        </li>
+        <li>
+          <a href="#">
+            <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.8401 4.60999C20.3294 4.099 19.7229 3.69364 19.0555 3.41708C18.388 3.14052 17.6726 2.99817 16.9501 2.99817C16.2276 2.99817 15.5122 3.14052 14.8448 3.41708C14.1773 3.69364 13.5709 4.099 13.0601 4.60999L12.0001 5.66999L10.9401 4.60999C10.4293 4.09915 9.82282 3.69393 9.15537 3.41746C8.48792 3.141 7.77256 2.9987 7.05012 2.9987C6.32768 2.9987 5.61231 3.141 4.94487 3.41746C4.27742 3.69393 3.67096 4.09915 3.16012 4.60999C2.64928 5.12084 2.24405 5.72729 1.96759 6.39474C1.69112 7.06219 1.54883 7.77755 1.54883 8.49999C1.54883 9.22243 1.69112 9.9378 1.96759 10.6052C2.24405 11.2727 2.64928 11.8792 3.16012 12.39L4.22012 13.45L12.0001 21.23L19.7801 13.45L20.8401 12.39C21.3511 11.8792 21.7565 11.2728 22.033 10.6053C22.3096 9.93789 22.4519 9.22248 22.4519 8.49999C22.4519 7.77751 22.3096 7.0621 22.033 6.39464C21.7565 5.72718 21.3511 5.12075 20.8401 4.60999V4.60999Z" stroke="black"></path>
+            </svg>
+          </a>
+          <a href="#">favorites</a>
+        </li>
+        <li>
+          <a href="#" class="head_svg cart_btn">
+            <svg sty xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 321.2 321.2" style="enable-background:new 0 0 321.2 321.2;" xml:space="preserve">
+              <path d="M306.4,313.2l-24-223.6c-0.4-3.6-3.6-6.4-7.2-6.4h-44.4V69.6c0-38.4-31.2-69.6-69.6-69.6c-38.4,0-69.6,31.2-69.6,69.6    v13.6H46c-3.6,0-6.8,2.8-7.2,6.4l-24,223.6c-0.4,2,0.4,4,1.6,5.6c1.2,1.6,3.2,2.4,5.2,2.4h278c2,0,4-0.8,5.2-2.4    C306,317.2,306.8,315.2,306.4,313.2z M223.6,123.6c3.6,0,6.4,2.8,6.4,6.4c0,3.6-2.8,6.4-6.4,6.4c-3.6,0-6.4-2.8-6.4-6.4    C217.2,126.4,220,123.6,223.6,123.6z M106,69.6c0-30.4,24.8-55.2,55.2-55.2c30.4,0,55.2,24.8,55.2,55.2v13.6H106V69.6z     M98.8,123.6c3.6,0,6.4,2.8,6.4,6.4c0,3.6-2.8,6.4-6.4,6.4c-3.6,0-6.4-2.8-6.4-6.4C92.4,126.4,95.2,123.6,98.8,123.6z M30,306.4    L52.4,97.2h39.2v13.2c-8,2.8-13.6,10.4-13.6,19.2c0,11.2,9.2,20.4,20.4,20.4c11.2,0,20.4-9.2,20.4-20.4c0-8.8-5.6-16.4-13.6-19.2    V97.2h110.4v13.2c-8,2.8-13.6,10.4-13.6,19.2c0,11.2,9.2,20.4,20.4,20.4c11.2,0,20.4-9.2,20.4-20.4c0-8.8-5.6-16.4-13.6-19.2V97.2    H270l22.4,209.2H30z"/>
+            </svg>
+          </a>
+          <a href="#" class="head_svg cart_btn">bag</a>
+        </li>
+        {%- if section.settings.head_language -%}
+        <li>
+          <a href="#">
+            <svg class="cart_qty_cls" width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0)">
+                <path d="M-5.271 0H26.313V21.056H-5.271V0Z" fill="#012169"/>
+                <path d="M-5.271 0V2.35235L22.7814 21.056H26.313V18.7036L-1.73939 0H-5.271ZM26.313 0V2.35235L-1.73939 21.056H-5.271V18.7036L22.7814 0H26.313Z" fill="white"/>
+                <path d="M7.89003 0V21.056H13.152V0H7.89003ZM-5.271 7.02003V14.036H26.313V7.02003H-5.271Z" fill="white"/>
+                <path d="M-5.271 8.4224V12.6336H26.313V8.4224H-5.271ZM8.9418 0V21.056H12.1002V0H8.9418ZM-5.271 21.056L5.25597 14.036H7.61243L-2.91762 21.056H-5.271ZM-5.271 0L5.25597 7.02003H2.90259L-5.271 1.57097V0ZM13.4326 7.02003L23.9596 0H26.313L15.786 7.02003H13.4326ZM26.313 21.056L15.786 14.036H18.1394L26.313 19.485V21.056Z" fill="#C8102E"/>
+              </g>
+              <defs>
+                <clipPath id="clip0">
+                  <rect width="21" height="21" rx="10.5" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+          </a>
+          <a href="#">language</a>
+        </li>
+        {%- endif -%}
+      </ul>
+    </div>
+
+  </div>
+</header>
+
+{%- include 'register' -%}
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+		{
+        "type": "text",
+        "id": "announcement",
+        "label": "Announcement"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu"
+      },
+	  {
+        "type":"checkbox",
+        "id":"head_language",
+        "label":"Show Language Option"
+      },
+	  {
+        "type": "range",
+        "id": "logo_max_width",
+        "label": "Custom logo width",
+        "min": 50,
+        "max": 250,
+        "step": 5,
+        "unit": "px",
+        "default": 100
+      }
+    ],
+	"blocks": [
+    {
+      "type": "text",
+      "name": "Menu Image",
+      "settings": [
+      {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+      },
+	  {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail"
+      },
+	  {
+          "type": "text",
+          "id": "btn",
+          "label": "Button"
+      },
+      {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+      },
+	  {
+          "type": "select",
+          "id": "alignment",
+          "label": "Text alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "top",
+              "label": "Top"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "bottom",
+              "label": "Bottom"
+            }
+          ]
+      }
+      ]
+    }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,110 @@
+{% comment %}
+    Renders a product card using "Grid" style
+    Accepts:
+    - max_height: {Number} Maximum height of the product's image (required)
+    - product: {Object} Product Liquid object (required)
+    - show_vendor: {Boolean} Show the product's vendor depending on the section setting (optional)
+
+    Usage:
+    {% include 'product-card-grid', max_height: max_height, product: product, show_vendor: section.settings.show_vendor %}
+
+<div class="grid-view-item{% unless product.available %} grid-view-item--sold-out{% endunless %} product-card">
+  <a class="grid-view-item__link grid-view-item__image-container full-width-link" href="{{ product.url | within: collection }}">
+    <span class="visually-hidden">{{ product.title }}</span>
+  </a>
+
+  {% capture img_id %}ProductCardImage-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {% capture wrapper_id %}ProductCardImageWrapper-{{ section.id }}-{{ product.id }}{% endcapture %}
+  {%- assign preview_image = product.featured_media.preview_image -%}
+  {%- assign img_url = preview_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
+  {% unless preview_image == blank %}
+    {% include 'image-style', image: preview_image, height: max_height, wrapper_id: wrapper_id, img_id: img_id %}
+  {% endunless %}
+
+  <div class="product-card__image-with-placeholder-wrapper" data-image-loading-animation>
+    <div id="{{ wrapper_id }}" class="grid-view-item__image-wrapper product-card__image-wrapper js">
+      <div style="padding-top:{% unless preview_image == blank %}{{ 1 | divided_by: preview_image.aspect_ratio | times: 100 }}%{% else %}100%{% endunless %};">
+        <img id="{{ img_id }}"
+              class="grid-view-item__image lazyload"
+              alt="{{ preview_image.alt }}"
+              data-src="{{ img_url }}"
+              data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+              data-aspectratio="{{ preview_image.aspect_ratio }}"
+              data-sizes="auto"
+              data-image>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    {% capture image_size %}{{ max_height }}x{{ max_height }}{% endcapture %}
+    <img class="grid-view-item__image" src="{{ preview_image | img_url: image_size, scale: 2 }}" alt="{{ preview_image.alt }}" style="max-width: {{ max_height | times: preview_image.aspect_ratio }}px;">
+  </noscript>
+
+  <div class="h4 grid-view-item__title product-card__title" aria-hidden="true">{{ product.title }}</div>
+  <div class='opinew-stars-plugin-product-list'>{% render 'opinew_review_stars_lists' product:product %}</div>
+  
+
+  {% include 'product-price-listing', product: product, show_vendor: show_vendor %}
+
+</div>
+{% endcomment %}
+
+
+<div class="shop_item">
+  {%- if product.featured_image != blank -%}
+  <figure >
+    <a href="{{ product.url }}"><img class="home_product" src="{{ product.featured_image | img_url: '341x512' }}" alt=""></a>
+  </figure>
+  <a href="#" class="heart_svg">
+    <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14.7618 2.26543C14.4 1.90347 13.9705 1.61634 13.4977 1.42045C13.0249 1.22455 12.5182 1.12372 12.0064 1.12372C11.4947 1.12372 10.9879 1.22455 10.5151 1.42045C10.0423 1.61634 9.61278 1.90347 9.251 2.26543L8.50017 3.01626L7.74933 2.26543C7.38749 1.90358 6.95791 1.61655 6.48514 1.42072C6.01236 1.22489 5.50564 1.1241 4.99392 1.1241C4.48219 1.1241 3.97547 1.22489 3.50269 1.42072C3.02992 1.61655 2.60035 1.90358 2.2385 2.26543C1.87665 2.62727 1.58962 3.05685 1.39379 3.52962C1.19796 4.0024 1.09717 4.50912 1.09717 5.02084C1.09717 5.53257 1.19796 6.03929 1.39379 6.51207C1.58962 6.98484 1.87665 7.41441 2.2385 7.77626L2.98933 8.52709L8.50017 14.0379L14.011 8.52709L14.7618 7.77626C15.1238 7.41448 15.4109 6.98492 15.6068 6.51214C15.8027 6.03935 15.9035 5.53261 15.9035 5.02084C15.9035 4.50908 15.8027 4.00233 15.6068 3.52955C15.4109 3.05677 15.1238 2.62721 14.7618 2.26543Z" fill="white" stroke="white"/>
+    </svg>
+  </a>
+  {%- endif -%}
+
+  {% for option in product.options_with_values %}
+  {%- if option.name == "Size" -%}
+  {%- assign index = forloop.index0 -%}
+  {%- assign values = '' -%}
+  <div class="size text-center">
+    <p>Select your size</p>
+    {% for variant in product.variants %}
+    {%- assign value = variant.options[index] -%}
+    {%- unless values contains value -%}
+    {% assign values = values | append: value %}
+    <a href="#" class="add_variant" data-id="{{ variant.id }}">{{ value }}</a>
+    {%- endunless -%}
+    {% endfor %}
+    <button class="add_shop cart_add_btn" data-id="{{ product.variants.first.id }}" data-click="grid_click">ADD TO SHOPPING BAG</button>
+  </div>
+  {%- endif -%}
+  {% endfor %}
+
+  <div class="shop_detail">
+    <div class="shop_desc">
+      {%- if product.title != blank -%}<h5 class="d-inline-block pt-1"><a href="{{ product.url }}">{{ product.title }}</a>
+<div class='opinew-stars-plugin-product-list'>{% render 'opinew_review_stars_lists' product:product %}</div></h5>{%- endif -%}
+      {%- if product.price != blank -%}<span class="price d-inline-block float-right pt-1">{{ product.price | money }}</span>{%- endif -%}
+    </div>
+    {%- if product.vendor != blank -%}<p class="d-inline-block del">{{ product.vendor }}</p>{%- endif -%}   
+
+    {% for option in product.options_with_values %}
+    {%- if option.name == "Color" -%}
+    {%- assign index = forloop.index0 -%}
+    {%- assign values = '' -%}
+    <div class="swatch d-inline-block float-right">
+      {% for variant in product.variants %}
+      {%- assign value = variant.options[index] -%}
+      {%- unless values contains value -%}
+      {% assign values = values | append: value %}
+      <a href="#" class="swatch_color" style="background: {{ value }};" data-image="{{ variant.featured_media | img_url: '341x512' }}"></a>
+      {%- endunless -%}
+      {% endfor %}
+    </div>
+    {%- endif -%}
+    {% endfor %}
+  </div>
+</div>
+

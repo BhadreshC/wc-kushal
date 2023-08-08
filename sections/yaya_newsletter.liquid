@@ -1,0 +1,64 @@
+<div class="wrap_block yaya_newsletter">
+  <div class="product_items row">
+    <div class="col-xs-6">
+      <figure>
+        {% if section.settings.newsletter_img != blank %}
+        <img class="w-100" src="{{ section.settings.newsletter_img | img_url: 'master' }}">
+        {% else %}
+        <span>
+          {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+          {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+        </span>
+        {% endif %}
+      </figure>
+    </div>
+    <div class="col-xs-6">
+      <div class="newsletter_des">
+        {%- if section.settings.detail != '' -%}
+        <p>{{ section.settings.detail }}
+          <a href="#" class="pl-1">
+            <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 1L14 8L7 15M-6.11959e-07 8L14 8L-6.11959e-07 8Z" stroke="black"/>
+            </svg>
+          </a>
+        </p>
+        {%- endif -%}
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" autocomplete="off" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email address">
+          </div>
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "YAYA Newsletters",
+    "settings": [
+        {
+          "type": "image_picker",
+          "id": "newsletter_img",
+          "label": "Newsletter Image"
+		},
+		{
+            "type": "text",
+            "id": "detail",
+            "label": "Detail"
+        }
+	],
+	"presets": [
+      {
+        "name": "YAYA Newsletters",
+        "category": "Promotional"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

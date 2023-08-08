@@ -1,0 +1,50 @@
+<div class="wrap_block banner_sec">
+  <figure>
+    {% if section.settings.img != blank %}
+    <img class="w-100" src="{{ section.settings.img | img_url: 'master' }}">
+    {% else %}
+    <span>
+      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+      {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+    </span>
+    {% endif %}
+  </figure>
+  <div class="text-center sale">
+    {%- if section.settings.title != '' -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
+    {%- if section.settings.discount != '' -%}<p>{{ section.settings.discount }}</p>{%- endif -%}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Sale",
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "img",
+        "label": "Sale"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+	  {
+        "type": "text",
+        "id": "discount",
+        "label": "Discount"
+      }
+	],
+	"presets": [
+      {
+        "name": "Sale",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

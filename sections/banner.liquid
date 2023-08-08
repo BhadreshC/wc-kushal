@@ -1,0 +1,50 @@
+<div class="wrap_block banner_sec">
+  <figure>
+    {% if section.settings.banner_img != blank %}
+    <img class="w-100" src="{{ section.settings.banner_img | img_url: 'master' }}">
+    {% else %}
+    <span>
+      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+      {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+    </span>
+    {% endif %}
+  </figure>
+  <div class="banner_text">
+    {%- if section.settings.title != '' -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
+    {%- if section.settings.btn != '' -%}<a href="#">{{ section.settings.btn }}</a>{%- endif -%}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Banner",
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "banner_img",
+        "label": "Banner Image"
+      },
+	  {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+	  {
+        "type": "text",
+        "id": "btn",
+        "label": "Banner Button"
+      }
+	],
+	"presets": [
+      {
+        "name": "Banner",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

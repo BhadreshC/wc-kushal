@@ -1,0 +1,68 @@
+<div class="wrap_block shop_arrival insta">
+  <div class="shop_arrival_heading text-center">
+    {%- if section.settings.title != '' -%}<h2 class="d-inline-block">{{ section.settings.title }}</h2>{%- endif -%}
+    <a href="#">
+      <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1L14 8L7 15M-6.11959e-07 8L14 8L-6.11959e-07 8Z" stroke="black"/>
+      </svg>
+    </a>
+    {%- if section.settings.detail != '' -%}<p>{{ section.settings.detail }}</p>{%- endif -%}
+  </div>
+  <div class="row insta_slider product_items">
+    {% for block in section.blocks %}
+    <div class="col-lg-3">
+      {% if block.settings.insta_image != blank %}
+      <a href="#" tabindex="0"><img src="{{ block.settings.insta_image | img_url: 'master' }}"></a>
+      {% else %}
+      <span>
+        {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+        {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+      </span>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Instagram",
+    "settings": [
+		{
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+        },
+		{
+            "type": "text",
+            "id": "detail",
+            "label": "Detail"
+        }
+	],
+	"blocks": [
+    {
+        "type": "image",
+        "name": "Insta Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "insta_image",
+            "label": "Instagram Image"
+          }
+    	]
+    }
+    ],
+	"presets": [
+      {
+        "name": "Instagram",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

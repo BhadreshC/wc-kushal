@@ -1,0 +1,40 @@
+<div class="wrap_block banner_sec">
+  <figure>
+    {% if section.settings.coll_img != blank %}
+    <img class="w-100" src="{{ section.settings.coll_img | img_url: 'master' }}">
+    {% else %}
+    <span>
+      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+      {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+    </span>
+    {% endif %}
+  </figure>
+  <div class="banner_text">
+    <h2>Hi {{ customer.first_name }}</h2>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Account",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "coll_img",
+        "label": "Collection Image"
+      }
+	],
+	"presets": [
+      {
+        "name": "Account",
+        "category": "STORE INFORMATION"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,46 @@
+<div class="float-left w-100">
+  {%- for block in section.blocks -%}
+  <style type="text/css">
+    {%- assign fonts = block.settings.fontd -%}
+    {{ fonts | font_face }}
+  </style>
+  <p style="font-family:{{ fonts.family }},{{ fonts.fallback_families }};font-size:40px;">{{ block.settings.title }}</p>
+  {%- endfor -%}
+</div>
+{% schema %}
+  {
+    "name": "Font Picker",
+    "settings": [],
+	"blocks":[
+      {
+          "type": "text",
+          "name": "Font",
+          "settings":[	
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Heading"
+          },
+		  {
+            "type": "font_picker",
+            "id": "fontd",
+            "label": "Select font Family",
+            "default": "work_sans_n6"			
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Font",
+        "category": "Font"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

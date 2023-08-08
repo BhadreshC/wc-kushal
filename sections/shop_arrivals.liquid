@@ -1,0 +1,122 @@
+<div class="wrap_block shop_arrival">
+  <div class="shop_arrival_heading text-center">
+    {%- if section.settings.title != '' -%}<h2 class="d-inline-block">{{ section.settings.title }}</h2>{%- endif -%}
+    <a href="#">
+      <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1L14 8L7 15M-6.11959e-07 8L14 8L-6.11959e-07 8Z" stroke="black"/>
+      </svg>
+    </a>
+    {%- if section.settings.detail != '' -%}<p>{{ section.settings.detail }}</p>{%- endif -%}
+  </div>
+  <div class="product_items">
+    <ul class="shop_arrival_slider">
+      {%- assign collection = collections[section.settings.collection] -%}
+      {%- for product in collection.products limit: product_limit -%}
+      <li class="col-md-3">
+        <div class="shop_item">
+          {%- if product.featured_image != blank -%}
+          <figure >
+            <a href="{{ product.url }}"><img class="home_product" src="{{ product.featured_image | img_url: '341x512' }}" alt=""></a>
+          </figure>
+          <a href="#" class="heart_svg" data-handle="{{ product.handle }}" data-toggle="modal" data-target="#exampleModalCenter">
+            <svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.7618 2.26543C14.4 1.90347 13.9705 1.61634 13.4977 1.42045C13.0249 1.22455 12.5182 1.12372 12.0064 1.12372C11.4947 1.12372 10.9879 1.22455 10.5151 1.42045C10.0423 1.61634 9.61278 1.90347 9.251 2.26543L8.50017 3.01626L7.74933 2.26543C7.38749 1.90358 6.95791 1.61655 6.48514 1.42072C6.01236 1.22489 5.50564 1.1241 4.99392 1.1241C4.48219 1.1241 3.97547 1.22489 3.50269 1.42072C3.02992 1.61655 2.60035 1.90358 2.2385 2.26543C1.87665 2.62727 1.58962 3.05685 1.39379 3.52962C1.19796 4.0024 1.09717 4.50912 1.09717 5.02084C1.09717 5.53257 1.19796 6.03929 1.39379 6.51207C1.58962 6.98484 1.87665 7.41441 2.2385 7.77626L2.98933 8.52709L8.50017 14.0379L14.011 8.52709L14.7618 7.77626C15.1238 7.41448 15.4109 6.98492 15.6068 6.51214C15.8027 6.03935 15.9035 5.53261 15.9035 5.02084C15.9035 4.50908 15.8027 4.00233 15.6068 3.52955C15.4109 3.05677 15.1238 2.62721 14.7618 2.26543Z" fill="white" stroke="white"/>
+            </svg>
+          </a>
+          {%- endif -%}
+          
+          {% for option in product.options_with_values %}
+          {%- if option.name == "Size" -%}
+          {%- assign index = forloop.index0 -%}
+          {%- assign values = '' -%}
+          <div class="size text-center">
+            <p>Select your size</p>
+            {% for variant in product.variants %}
+            {%- assign value = variant.options[index] -%}
+            {%- unless values contains value -%}
+            {% assign values = values | append: value %}
+            <a href="#" class="add_variant" data-id="{{ variant.id }}">{{ value }}</a>
+            {%- endunless -%}
+            {% endfor %}
+            <button class="add_shop cart_add_btn" data-id="{{ product.variants.first.id }}" data-click="grid_click">ADD TO SHOPPING BAG</button>
+          </div>
+          {%- endif -%}
+          {% endfor %}
+          
+          <div class="shop_detail">
+            <div class="shop_desc">
+            	{%- if product.title != blank -%}<h5 class="d-inline-block pt-1"><a href="{{ product.url }}">{{ product.title }}</a></h5>{%- endif -%}
+            	{%- if product.price != blank -%}<span class="price d-inline-block float-right pt-1">{{ product.price | money }}</span>{%- endif -%}
+            </div>
+            {%- if product.vendor != blank -%}<p class="del d-inline-block">{{ product.vendor }}</p>{%- endif -%}   
+
+            {% for option in product.options_with_values %}
+              {%- if option.name == "Color" -%}
+                {%- assign index = forloop.index0 -%}
+                {%- assign values = '' -%}
+                <div class="swatch d-inline-block float-right">
+                  {% for variant in product.variants %}
+                  {%- assign value = variant.options[index] -%}
+                    {%- unless values contains value -%}
+                      {% assign values = values | append: value %}
+                      <a href="#" class="swatch_color" style="background: {{ value }};" data-image="{{ variant.featured_media | img_url: '341x512' }}"></a>
+                    {%- endunless -%}
+                  {% endfor %}
+                </div>
+              {%- endif -%}
+            {% endfor %}
+
+          </div>
+        </div>
+      </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal quickView fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <button type="button" class="close text-right" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" class="pr-1 d-inline-block">&times;</span>
+      </button>
+      <div class="modal-body"></div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Shop Arrivals",
+    "settings": [
+		{
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+        },
+		{
+            "type": "text",
+            "id": "detail",
+            "label": "Detail"
+        },
+		{
+          "id": "collection",
+          "type": "collection",
+          "label": "Collection"
+        }
+	],
+	"presets": [
+      {
+        "name": "Shop Arrivals",
+        "category": "Product"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

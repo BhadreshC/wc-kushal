@@ -1,0 +1,57 @@
+<div class="wrap_block banner_sec bg_video">
+  <figure>
+    {% if section.settings.bg_img != blank %}
+    <img class="w-100" src="{{ section.settings.bg_img | img_url: 'master' }}">
+    {% else %}
+    <span>
+      {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+      {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+    </span>
+    {% endif %}
+  </figure>
+  {%- if section.settings.video_link != blank -%}<div data-id="{{ section.settings.video_link.id }}"></div>{%- endif -%}
+  <a href="#" class="play_btn">
+    <svg width="66" height="76" viewBox="0 0 66 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0.523874 0.335581L65.5171 37.8595L0.523872 75.3833L0.523874 0.335581Z" fill="white" fill-opacity="0.7"/>
+    </svg>
+    
+  </a>
+  <a href="#" class="video_stop_btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 329.26933 329"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"/></svg>
+  </a>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Background Video",
+    "settings": [
+        {
+          "type": "image_picker",
+          "id": "bg_img",
+          "label": "Background Image"
+        },
+		{
+          "type": "video_url",
+          "id": "video_link",
+          "label": "Video link",
+          "accept": [
+          	"youtube"
+          ],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        }
+	],
+	"presets": [
+      {
+        "name": "Background Video",
+        "category": "Video"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

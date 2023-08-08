@@ -1,0 +1,1017 @@
+{%- comment -%}{%- endcomment -%}
+<div class="product-template__container page-width"
+  id="ProductSection-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product"
+  data-enable-history-state="true"
+  data-ajax-enabled="{{ settings.enable_ajax }}"
+>
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign product_image_scale = '2' -%}
+  {%- assign enable_image_zoom = section.settings.enable_image_zoom -%}
+  {%- assign compare_at_price = current_variant.compare_at_price -%}
+  {%- assign price = current_variant.price -%}
+
+  {% case section.settings.media_size %}
+    {% when 'small' %}
+      {%- assign product_media_width = 'medium-up--one-third' -%}
+      {%- assign product_description_width = 'medium-up--two-thirds' -%}
+      {%- assign height = 345 -%}
+    {% when 'medium' %}
+      {%- assign product_media_width = 'medium-up--one-half' -%}
+      {%- assign product_description_width = 'medium-up--one-half' -%}
+      {%- assign height = 530 -%}
+    {% when 'large' %}
+      {%- assign product_media_width = 'medium-up--two-thirds' -%}
+      {%- assign product_description_width = 'medium-up--one-third' -%}
+      {%- assign height = 720 -%}
+    {% when 'full' %}
+      {%- assign product_media_width = '' -%}
+      {%- assign product_description_width = '' -%}
+      {%- assign height = 1090 -%}
+      {%- assign enable_image_zoom = false -%}
+  {% endcase %}
+
+  <div class="grid product-single{% if section.settings.enable_payment_button %} product-single--{{ section.settings.media_size }}-media{% endif %}">
+    <div class="grid__item product-single__media-group {{ product_media_width }}{% if section.settings.media_size == 'full' %} product-single__media-group--full{% endif %}" data-product-single-media-group>
+      {%- assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+
+      {%- for media in product.media -%}
+        {% include 'media', media: media, featured_media: featured_media, height: height, enable_image_zoom: enable_image_zoom, image_zoom_size: product_image_zoom_size, image_scale: product_image_scale %}
+      {%- endfor -%}
+
+      <noscript>
+        {% capture product_image_size %}{{ height }}x{% endcapture %}
+        <img src="{{ featured_media | img_url: product_image_size, scale: product_image_scale }}" alt="{{ featured_media.alt }}" id="FeaturedMedia-{{ section.id }}" class="product-featured-media" style="max-width: {{ height }}px;">
+      </noscript>
+
+      {% assign first_3d_model = product.media | where: "media_type", "model" | first %}
+
+      {%- if first_3d_model -%}
+        <button
+          aria-label="{{ 'products.product.view_in_space_label' | t }}"
+          class="product-single__view-in-space"
+          data-shopify-xr
+          data-shopify-model3d-id="{{ first_3d_model.id }}"
+          data-shopify-title="{{ product.title | escape }}"
+          data-shopify-xr-hidden
+        >
+          {% include 'icon-3d-badge-full-color' %}<span class='product-single__view-in-space-text'>{{ 'products.product.view_in_space' | t }}</span>
+        </button>
+      {%- endif -%}
+
+
+      {% if product.media.size > 1 %}
+        {% if product.media.size > 4 %}
+          {%- assign enable_thumbnail_slides = true -%}
+        {% endif %}
+
+        <div data-thumbnail-slider>
+          <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} slider-active{% endif %}" data-slider>
+            {% if enable_thumbnail_slides == true %}
+              <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__prev thumbnails-slider__prev--{{ section.id }}" data-slider-button>
+                {% include 'icon-chevron-left' %}
+                <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+              </button>
+            {% endif %}
+
+            <ul class="product-single__thumbnails product-single__thumbnails-{{ section.id }}" data-slider-container>
+              {% if enable_thumbnail_slides == true %}
+                <div class="product-single__thumbnails-slider-track" data-slider-track>
+              {% endif %}
+
+              {% for media in product.media %}
+                <li class="product-single__thumbnails-item product-single__thumbnails-item--{{ section.settings.media_size }} {% if enable_thumbnail_slides == true %} product-single__thumbnails-item-slide{% endif %} js"{% if enable_thumbnail_slides == true %} data-slider-slide-index="{{ forloop.index0 }}" data-slider-item{% endif %}>
+                  <a href="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                    class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                    data-thumbnail-id="{{ section.id }}-{{ media.id }}"
+                    {% if enable_thumbnail_slides == true %} data-slider-item-link{% endif %}
+                    {% if enable_image_zoom %}data-zoom="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+
+                      {%- capture thumbnailAlt -%}
+                        {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                          {{ 'sections.featured_product.video_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- elsif media.media_type == 'model' -%}
+                          {{ 'sections.featured_product.model_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- else -%}
+                          {{ 'sections.featured_product.gallery_thumbnail_alt' | t: imageAlt: media.alt | escape }}
+                        {%- endif -%}
+                      {%- endcapture -%}
+
+                      <img class="product-single__thumbnail-image" src="{{ media.preview_image | img_url: '110x110', scale: 2 }}" alt="{{ thumbnailAlt }}">
+                      {%- if media.media_type == 'video' or media.media_type =='external_video' -%}
+                        <div class="product-single__thumbnail-badge">
+                          {% include 'icon-video-badge-full-color' %}
+                        </div>
+                      {%- endif -%}
+                      {%- if media.media_type == 'model' -%}
+                        <div class="product-single__thumbnail-badge">
+                          {% include 'icon-3d-badge-full-color' %}
+                        </div>
+                      {%- endif -%}
+                  </a>
+                </li>
+              {% endfor %}
+
+              {% if enable_thumbnail_slides == true %}
+                </div>
+              {% endif %}
+            </ul>
+            {% if enable_thumbnail_slides == true %}
+              <button type="button" class="btn btn--link medium-up--hide thumbnails-slider__btn thumbnails-slider__next thumbnails-slider__next--{{ section.id }}" data-slider-button data-slider-button-next>
+                {% include 'icon-chevron-right' %}
+                <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+              </button>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="grid__item {{ product_description_width }}">
+      <div class="product-single__meta">
+        <a href="javascript:void(0)" class="btn" id="myButton">Demo</a>
+        <h1 class="product-single__title">{{ product.title }}</h1>
+        <div id='opinew-stars-plugin-product'>{% render 'opinew_review_stars_product' product:product %}</div>
+        <script>window.performance.mark('debut:product:title_visible');</script>
+
+        <div class="product__price">
+          {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
+        </div>
+
+        {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
+        <div class="product__policies rte" data-product-policies>
+          {%- if shop.taxes_included -%}
+          {{ 'products.product.include_taxes' | t }}
+          {%- endif -%}
+          {%- if shop.shipping_policy.body != blank -%}
+          {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
+          {%- endif -%}
+        </div>
+        {%- endif -%}
+
+        {% capture "form_classes" -%}
+        product-form product-form-{{ section.id }}
+        {%- if section.settings.enable_payment_button and product.has_only_default_variant %} product-form--payment-button-no-variants {%- endif -%}
+        {%- if current_variant.available == false %} product-form--variant-sold-out {%- endif -%}
+        {%- endcapture %}
+
+        {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
+        {% unless product.has_only_default_variant %}
+        <div class="product-form__controls-group">
+          {% for option in product.options_with_values %}
+          <div class="selector-wrapper js product-form__item">
+            <label for="SingleOptionSelector-{{ forloop.index0 }}">
+              {{ option.name }}
+            </label>
+            <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input"
+                    id="SingleOptionSelector-{{ forloop.index0 }}"
+                    data-index="option{{ forloop.index }}"
+                    >
+              {% for value in option.values %}
+              <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endfor %}
+        </div>
+        {% endunless %}
+
+        <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}"
+                  {%- if variant == current_variant %} selected="selected" {%- endif -%}
+                  >
+            {{ variant.title }}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                </option>
+          {% endfor %}
+        </select>
+
+        {% if section.settings.show_quantity_selector %}
+        <div class="product-form__controls-group">
+          <div class="product-form__item">
+            <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+            <input type="number" id="Quantity-{{ section.id }}"
+                   name="quantity" value="1" min="1" pattern="[0-9]*"
+                   class="product-form__input product-form__input--quantity" data-quantity-input
+                   >
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="product-form__error-message-wrapper product-form__error-message-wrapper--hidden{% if section.settings.enable_payment_button %} product-form__error-message-wrapper--has-payment-button{% endif %}"
+             data-error-message-wrapper
+             role="alert"
+             >
+          <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+          {% include 'icon-error' %}
+          <span class="product-form__error-message" data-error-message>{{ 'products.product.quantity_minimum_message' | t }}</span>
+        </div>
+
+
+        {% if product.available and product.variants.size > 1 %}
+        {% for option in product.options %}
+        {% include 'swatch' with option %}
+        {% endfor %}
+        {% endif %}
+
+
+
+        <div class="product-form__controls-group product-form__controls-group--submit">
+          <div class="product-form__item product-form__item--submit
+                      {%- if section.settings.enable_payment_button %} product-form__item--payment-button {%- endif -%}
+                      {%- if product.has_only_default_variant %} product-form__item--no-variants {%- endif -%}"
+               >
+            <input id="ship_label" type="hidden" name="properties[Free Shipping Nationwide]" value="Ships in 10-12 Weeks">
+            <button type="submit" name="add"
+                    {% unless current_variant.available %} aria-disabled="true"{% endunless %}
+                    aria-label="{% unless current_variant.available %}{{ 'products.product.sold_out' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endunless %}"
+                    class="btn product-form__cart-submit{% if section.settings.enable_payment_button and product.selling_plan_groups == empty %} btn--secondary-accent{% endif %}"
+                    {% if settings.enable_ajax %}aria-haspopup="dialog"{% endif %}
+                    data-add-to-cart>
+              <span data-add-to-cart-text>
+                {% unless current_variant.available %}
+                {{ 'products.product.sold_out' | t }}
+                {% else %}
+                {{ 'products.product.add_to_cart' | t }}
+                {% endunless %}
+              </span>
+              <span class="hide" data-loader>
+                {% include 'icon-spinner' %}
+              </span>
+            </button>
+            {% if section.settings.enable_payment_button %}
+            {{ form | payment_button }}
+            {% endif %}
+          </div>
+        </div>
+        {% endform %}
+      </div>
+
+      {%- comment -%}
+      Live region for announcing updated price and availability to screen readers
+      {%- endcomment -%}
+      <p class="visually-hidden" data-product-status
+         aria-live="polite"
+         role="status"
+         ></p>
+
+      {%- comment -%}
+      Live region for announcing that the product form has been submitted and the
+      product is in the process being added to the cart
+      {%- endcomment -%}
+      <p class="visually-hidden" data-loader-status
+         aria-live="assertive"
+         role="alert"
+         aria-hidden="true"
+         >{{ 'products.product.loader_label' | t }}</p>
+
+      <div
+           class="product-single__store-availability-container"
+           data-store-availability-container
+           data-product-title="{{ product.title | escape }}"
+           data-has-only-default-variant="{{ product.has_only_default_variant }}"
+           data-base-url="{{ shop.url }}{{ routes.root_url }}"
+           >
+      </div>
+
+      <div class="product-single__description rte">
+        {{ product.description }}
+      </div>
+
+      {% if section.settings.show_share_buttons %}
+      {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product.featured_media %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_image_zoom_size = '1024x1024' -%}
+{%- assign product_image_scale = '2' -%}
+{%- assign enable_image_zoom = section.settings.enable_image_zoom -%}
+{%- assign compare_at_price = current_variant.compare_at_price -%}
+{%- assign price = current_variant.price -%}
+
+{% case section.settings.media_size %}
+{% when 'small' %}
+{%- assign product_media_width = 'medium-up--one-third' -%}
+{%- assign product_description_width = 'medium-up--two-thirds' -%}
+{%- assign height = 345 -%}
+{% when 'medium' %}
+{%- assign product_media_width = 'medium-up--one-half' -%}
+{%- assign product_description_width = 'medium-up--one-half' -%}
+{%- assign height = 530 -%}
+{% when 'large' %}
+{%- assign product_media_width = 'medium-up--two-thirds' -%}
+{%- assign product_description_width = 'medium-up--one-third' -%}
+{%- assign height = 720 -%}
+{% when 'full' %}
+{%- assign product_media_width = '' -%}
+{%- assign product_description_width = '' -%}
+{%- assign height = 1090 -%}
+{%- assign enable_image_zoom = false -%}
+{% endcase %}
+
+<div class="w-100 float-left">
+  <div class="product_items">
+    <div class="row m-0 product_page">
+      <div class="col-lg-8">
+        <ul class="row product_img product-single__thumbnails product-single__thumbnails-{{ section.id }}" data-slider-container>
+          {% if enable_thumbnail_slides == true %}
+          <div class="product-single__thumbnails-slider-track" data-slider-track>
+            {% endif %}
+
+            {% for media in product.media %}
+            <li class="col-lg-6 d-flex align-items-center justify-content-center p-0 product-single__thumbnails-item product-single__thumbnails-item--{{ section.settings.media_size }} {% if enable_thumbnail_slides == true %} product-single__thumbnails-item-slide{% endif %} js"{% if enable_thumbnail_slides == true %} data-slider-slide-index="{{ forloop.index0 }}" data-slider-item{% endif %}>
+              <a href="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"
+                 class="text-link m-0 product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                 data-thumbnail-id="{{ section.id }}-{{ media.id }}"
+                 {% if enable_thumbnail_slides == true %} data-slider-item-link{% endif %}
+                 {% if enable_image_zoom %}data-zoom="{{ media.preview_image | img_url: product_image_zoom_size, scale: product_image_scale }}"{% endif %}>
+                
+                <img class="product-single__thumbnail-image" src="{{ media.preview_image | img_url: 'master' }}" alt="{{ thumbnailAlt }}">
+                {%- if media.media_type == 'model' -%}
+                <div class="product-single__thumbnail-badge">
+                  {% include 'icon-3d-badge-full-color' %}
+                </div>
+                {%- endif -%}
+              </a>
+            </li>
+            {% endfor %}
+            {% if enable_thumbnail_slides == true %}
+          </div>
+          {% endif %}
+        </ul>
+      </div>
+      
+      <div class="col-lg-4">
+       
+        <h1 class="product-single__title">{{ product.title }}</h1>
+        <div class="wc_product_review_badge" data-handle="{{ product.handle }}" data-product_id="{{ product.id }}"></div>
+        
+        {%- assign counttitle = 0 -%}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          {%- assign productTitle  = product.description | split: '<h3>' -%}
+          {%- for descTab in productTitle -%}
+          {%- unless descTab == '' -%}
+          {%- assign counttitle = counttitle | plus:1 -%}
+          {%- assign descTitle = descTab | split: '</h3>' -%}
+          <li class="nav-item"> 
+            <a class="nav-link {% if counttitle == 1 %}active{% endif %}" data-toggle="tab" href="#descTitle{{ forloop.index }}" role="tab">{{ descTitle.first }}</a>
+          </li>
+          {%- endunless -%}
+          {%- endfor -%}
+        </ul>
+        
+        {%- assign count = 0 -%}
+        <div class="tab-content" id="myTabContent">  
+          {%- for descTitleTab in productTitle -%}
+          {%- unless descTitleTab == '' -%}
+          {%- assign count = count | plus: 1 -%}
+          {%- assign prodesc = descTitleTab | split: '</h3>' -%}
+          	<div class="tab-pane fade {% if count == 1 %}in active{% endif %}" id="descTitle{{ forloop.index }}" role="tabpanel">{{ prodesc.last }}</div>
+          {%- endunless -%}
+          {%- endfor -%}
+        </div>
+       
+        <div class="product__price">
+          {% include 'product-price', variant: current_variant, show_vendor: section.settings.show_vendor %}
+        </div>
+        <div class="localArea">
+          <a href="#" class="product_vendor">{{ product.vendor }}</a>
+          <a href="#" class="responsible">Responsible forestry</a>
+          <div class="sizeChart d-inline-block float-right">
+            <a href="#" class="d-flex align-items-center" data-toggle="modal" data-target="#exampleModalCenter">
+              <svg viewBox="0 0 422.777 422.777">
+                <path d="M416.628,82.068l-75.84-75.84c-8.226-8.198-21.534-8.198-29.76,0l-83.56,83.16l-20.96,20.96l-20.88,21.04l-104.8,104.8    l-20.96,20.96l-53.72,53.64c-8.198,8.226-8.198,21.534,0,29.76l76,76c8.226,8.198,21.534,8.198,29.76,0l304.72-304.72    C424.826,103.602,424.826,90.295,416.628,82.068z M409.668,104.868l-304.72,304.72c-4.351,4.125-11.169,4.125-15.52,0l-76-76    c-4.272-4.292-4.272-11.228,0-15.52l50.04-50.32l39.12,39.12c1.875,2.057,5.063,2.205,7.12,0.33    c2.057-1.875,2.205-5.063,0.33-7.12c-0.105-0.115-0.215-0.225-0.33-0.33l-39.12-39.12l13.84-13.84l17.76,17.76    c1.875,2.057,5.063,2.205,7.12,0.33c2.057-1.875,2.205-5.063,0.33-7.12c-0.105-0.115-0.215-0.225-0.33-0.33l-17.84-17.76    l13.84-13.84l17.76,17.76c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-17.76-17.76l13.84-13.84    l39.12,39.12c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-39.12-39.12l13.84-13.84l17.76,17.76    c1.875,2.057,5.063,2.205,7.12,0.33s2.205-5.063,0.33-7.12c-0.105-0.115-0.215-0.225-0.33-0.33l-17.76-17.76l13.84-13.84    l17.76,17.76c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-17.6-17.76l13.84-13.84l39.12,39.12    c2.192,1.716,5.359,1.33,7.075-0.862c1.442-1.842,1.427-4.433-0.035-6.258l-39.2-39.12l13.84-13.84l17.76,17.76    c1.875,2.057,5.063,2.205,7.12,0.33c2.057-1.875,2.205-5.063,0.33-7.12c-0.105-0.115-0.215-0.225-0.33-0.33l-17.76-17.76    l13.84-13.84l17.76,17.76c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-17.76-17.76l13.84-13.84    l39.12,39.12c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-39.12-39.12l13.84-13.84l17.76,17.76    c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-17.76-17.76l13.84-13.84l39.12,39.12    c2.057,1.875,5.245,1.727,7.12-0.33c1.753-1.924,1.753-4.866,0-6.79l-39.12-39.12l16.88-16.88c4.351-4.125,11.169-4.125,15.52,0    l76,76c4.272,4.292,4.272,11.228,0,15.52L409.668,104.868z"/>
+                <path d="M91.498,331.418c-0.01-0.01-0.02-0.02-0.03-0.03c-9.613-9.565-25.147-9.565-34.76,0c-9.615,9.599-9.628,25.175-0.03,34.79    c9.599,9.615,25.175,9.628,34.79,0.03C101.084,356.609,101.097,341.033,91.498,331.418z M84.428,358.988l-0.04,0.08    c-5.677,5.695-14.896,5.708-20.591,0.031c-5.695-5.677-5.708-14.896-0.031-20.591s14.896-5.708,20.591-0.031    c0.01,0.01,0.021,0.021,0.031,0.031C90.012,344.171,90.03,353.304,84.428,358.988z"/>
+              </svg>
+              <span>size chart</span>
+            </a>
+          </div>
+        </div>
+    
+        <!-- Modal -->
+        <div class="modal fade sizeChartModal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-body m-0 p-0">
+                <div class="row m-0">
+                  <div class="col-md-5 p-0">
+                    <figure>
+                      {% if section.settings.size_img != blank %}
+                      <img class="w-100" src="{{ section.settings.size_img | img_url: 'master' }}">
+                      {% else %}
+                      <span>
+                        {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                        {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                      </span>
+                      {% endif %}
+                    </figure>
+                  </div>
+                  <div class="col-md-7 p-0 d-flex align-items-center justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true" class="float-right">&times;</span>
+                    </button>
+                    
+                    <div class="measurement">
+                      
+                      <div class="chartHead">
+                        <h2 class="d-inline-block">Body measurements</h2>
+                        <ul class="float-right">
+                          <li><a href="#">cm</a></li>
+                          <li><a href="#">inches</a></li>
+                        </ul>
+                      </div>
+                      
+                      <table class="selectSize">
+                        <tr>
+                          <td>int</td>
+                          <td><a href="#">xxs</a></td>
+                          <td><a href="#">xs</a></td>
+                          <td><a href="#">s</a></td>
+                          <td><a href="#">m</a></td>
+                          <td><a href="#">l</a></td>
+                          <td><a href="#">xl</a></td>
+                        </tr>
+                        <tr>
+                          <td>Chest <br> (cm)</td>
+                          <td><a href="#">77 to 80</a></td>
+                          <td><a href="#">77 to 80</a></td>
+                          <td><a href="#">77 to 80</a></td>
+                          <td><a href="#">77 to 80</a></td>
+                          <td><a href="#">77 to 80</a></td>
+                          <td><a href="#">77 to 80</a></td>
+                        </tr>
+                        <tr>
+                          <td>Waist <br> (cm)</td>
+                          <td><a href="#">61 to 64</a></td>
+                          <td><a href="#">61 to 64</a></td>
+                          <td><a href="#">61 to 64</a></td>
+                          <td><a href="#">61 to 64</a></td>
+                          <td><a href="#">61 to 64</a></td>
+                          <td><a href="#">61 to 64</a></td>
+                        </tr>
+                        <tr>
+                          <td>Hip <br> (cm)</td>
+                          <td><a href="#">85 to 88</a></td>
+                          <td><a href="#">85 to 88</a></td>
+                          <td><a href="#">85 to 88</a></td>
+                          <td><a href="#">85 to 88</a></td>
+                          <td><a href="#">85 to 88</a></td>
+                          <td><a href="#">85 to 88</a></td>
+                        </tr>
+                      </table>
+                      
+                      <a href="#" class="chatBtn">size chart</a>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      
+        
+        {% form 'product', product, class:form_classes, novalidate: 'novalidate', data-product-form: '' %}
+
+
+        <select name="id" id="ProductSelect-{{ section.id }}" class="product-form__variants no-js">
+          {% for variant in product.variants %}
+          <option value="{{ variant.id }}"
+                  {%- if variant == current_variant %} selected="selected" {%- endif -%}
+                  >
+            {{ variant.title }}  {%- if variant.available == false %} - {{ 'products.product.sold_out' | t }}{% endif %}
+                </option>
+          {% endfor %}
+        </select>
+
+
+        {% if product.available and product.variants.size > 1 %}
+        {% for option in product.options %}
+        {% include 'swatch' with option %}
+        {% endfor %}
+        {% endif %}
+        
+        {% if section.settings.show_quantity_selector %}
+        <div class="product-form__controls-group">
+          <div class="product-form__item">
+            <label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label>
+            <input type="number" id="Quantity-{{ section.id }}"
+                   name="quantity" value="1" min="1" pattern="[0-9]*"
+                   class="product-form__input product-form__input--quantity" data-quantity-input
+                   >
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="product-form__error-message-wrapper product-form__error-message-wrapper--hidden{% if section.settings.enable_payment_button %} product-form__error-message-wrapper--has-payment-button{% endif %}"
+             data-error-message-wrapper
+             role="alert"
+             >
+          <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+          {% include 'icon-error' %}
+          <span class="product-form__error-message" data-error-message>{{ 'products.product.quantity_minimum_message' | t }}</span>
+        </div>
+
+        <button  type="submit" id="addtocart_btn_id" class="cart_btn addToCart btn btn-primary add_to_cart_btn_cls" data-click="product_click" name="add">{{ 'products.product.add_to_cart' | t }}</button>
+        {% endform %}
+          
+       
+        <p class="text-center or">Or</p>
+
+        <div>
+          <a href="#" class="paypal">
+            <svg viewBox="0 0 113 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <rect width="113" height="24" fill="url(#pattern0)"/>
+              <defs>
+                <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                  <use xlink:href="#image0" transform="translate(-0.713115 -0.385002) scale(0.00171819 0.00806229)"/>
+                </pattern>
+                <image id="image0" width="1393" height="210" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABXEAAADSCAIAAACDwxSFAAAACXBIWXMAAAsTAAALEwEAmpwYAAAFGmlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNi4wLWMwMDIgNzkuMTY0NDg4LCAyMDIwLzA3LzEwLTIyOjA2OjUzICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjIuMCAoTWFjaW50b3NoKSIgeG1wOkNyZWF0ZURhdGU9IjIwMjEtMDItMDRUMTM6Mzg6MzcrMDE6MDAiIHhtcDpNb2RpZnlEYXRlPSIyMDIxLTAyLTA0VDEzOjM5OjMyKzAxOjAwIiB4bXA6TWV0YWRhdGFEYXRlPSIyMDIxLTAyLTA0VDEzOjM5OjMyKzAxOjAwIiBkYzpmb3JtYXQ9ImltYWdlL3BuZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOmQxZmYxMDllLTllMTkt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"/>
+                       </defs>
+                </svg>
+              </a>
+            <a href="#" class="apple">Buy With
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 512.003 512.003" style="enable-background:new 0 0 512.003 512.003;" xml:space="preserve">
+                <path d="M351.98,0c-27.296,1.888-59.2,19.36-77.792,42.112c-16.96,20.64-30.912,51.296-25.472,81.088    c29.824,0.928,60.64-16.96,78.496-40.096C343.916,61.568,356.556,31.104,351.98,0z"/>
+                <path d="M459.852,171.776c-26.208-32.864-63.04-51.936-97.824-51.936c-45.92,0-65.344,21.984-97.248,21.984    c-32.896,0-57.888-21.92-97.6-21.92c-39.008,0-80.544,23.84-106.88,64.608c-37.024,57.408-30.688,165.344,29.312,257.28    c21.472,32.896,50.144,69.888,87.648,70.208c33.376,0.32,42.784-21.408,88-21.632c45.216-0.256,53.792,21.92,87.104,21.568    c37.536-0.288,67.776-41.28,89.248-74.176c15.392-23.584,21.12-35.456,33.056-62.08    C387.852,342.624,373.932,219.168,459.852,171.776z"/>
+              </svg>
+              Pay
+            </a>
+            </div>
+
+        </div>
+      </div>
+      
+      {%- comment -%}
+      <div id="wc_review_section" class="wc_review_main_content" data-url="{{ shop.url }}" data-handle="{{ product.handle }}" data-product_id="{{ product.id }}" data-limit="0"></div>
+      {%- endcomment -%}
+      
+    </div>
+  </div>
+
+  
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+  <script type="application/json" id="ModelJson-{{ section.id }}">
+    {{ product.media | where: 'media_type', 'model' | json }}
+  </script>
+{% endunless %}
+
+<script type="text/javascript">
+  var selectCallback = function(variant, selector){
+    if(variant){
+      var form = jQuery('#' + selector.domIdPrefix).closest('form');
+      for(var i=0,length=variant.options.length; i<length; i++){
+        var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+        if(radioButton.length){
+          radioButton.get(0).checked = true;
+        }
+      }
+    }   
+  };
+
+  jQuery(function($){
+    new Shopify.OptionSelectors('ProductSelect-product-template', {
+      product: {{ product | json }},
+      onVariantSelected: selectCallback,
+      enableHistoryState: false
+    });
+  });
+  
+//   $(document).ready(function(){
+//     $('.descSec h3').on('click',function(){
+//       if($(this).hasClass('active')){
+//       	$(this).removeClass('active');
+//       }else{
+//         $('.descSec h3').removeClass('active');
+//       	$(this).addClass('active');
+//       }
+//     });
+//   });
+</script>
+
+  
+  
+
+  
+{% schema %}
+{
+  "name": {
+    "cs": "Stránky produktů",
+    "da": "Produktsider",
+    "de": "Produktseiten",
+    "en": "Product pages",
+    "es": "Páginas de productos",
+    "fi": "Tuotesivut",
+    "fr": "Pages de produits",
+    "it": "Pagine di prodotto",
+    "ja": "商品ページ",
+    "ko": "제품 페이지",
+    "nb": "Produktsider",
+    "nl": "Productpagina's",
+    "pl": "Strony produktu",
+    "pt-BR": "Páginas de produtos",
+    "pt-PT": "Páginas de produtos",
+    "sv": "Produktsidor",
+    "th": "หน้าสินค้า",
+    "tr": "Ürün sayfaları",
+    "vi": "Trang sản phẩm",
+    "zh-CN": "产品页面",
+    "zh-TW": "產品頁面"
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": {
+        "cs": "Zobrazit výběr množství",
+        "da": "Vis antalsvælger",
+        "de": "Mengenauswahl anzeigen",
+        "en": "Show quantity selector",
+        "es": "Mostrar selector de cantidad",
+        "fi": "Näytä määrän valitsin",
+        "fr": "Afficher le sélecteur de quantité",
+        "it": "Mostra selettore quantità",
+        "ja": "数量セレクターを表示する",
+        "ko": "수량 선택기 표시",
+        "nb": "Vis mengdevelger",
+        "nl": "Hoeveelheidskiezer weergeven",
+        "pl": "Pokaż selektor ilości",
+        "pt-BR": "Exibir seletor de quantidade",
+        "pt-PT": "Mostrar um seletor de quantidade",
+        "sv": "Visa kvantitetsväljare",
+        "th": "แสดงตัวเลือกจำนวน",
+        "tr": "Adet seçiciyi göster",
+        "vi": "Hiển thị hộp chọn số lượng",
+        "zh-CN": "显示数量选择器",
+        "zh-TW": "顯示數量選擇器"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": {
+        "cs": "Zobrazit dodavatele",
+        "da": "Vis leverandør",
+        "de": "Lieferanten anzeigen",
+        "en": "Show vendor",
+        "es": "Mostrar proveedor",
+        "fi": "Näytä myyjä",
+        "fr": "Afficher les vendeurs",
+        "it": "Mostra fornitore",
+        "ja": "販売元を表示する",
+        "ko": "공급업체 표시",
+        "nb": "Vis leverandør",
+        "nl": "Leverancier weergeven",
+        "pl": "Pokaż dostawcę",
+        "pt-BR": "Exibir fornecedor",
+        "pt-PT": "Mostrar fornecedor",
+        "sv": "Visa säljare",
+        "th": "แสดงผู้ขาย",
+        "tr": "Satıcıyı göster",
+        "vi": "Hiển thị nhà cung cấp",
+        "zh-CN": "显示厂商",
+        "zh-TW": "顯示廠商"
+      },
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_payment_button",
+      "label": {
+        "cs": "Zobrazit dynamické tlačítko pokladny",
+        "da": "Vis dynamisk betalingsknap",
+        "de": "Dynamischen Checkout Button anzeigen",
+        "en": "Show dynamic checkout button",
+        "es": "Mostrar botón de pago dinámico",
+        "fi": "Näytä dynaaminen kassapainike",
+        "fr": "Afficher le bouton de paiement dynamique",
+        "it": "Mostra pulsante di check-out dinamico",
+        "ja": "動的チェックアウトボタンを表示する",
+        "ko": "동적 결제 버튼 표시",
+        "nb": "Vis dynamisk knapp for å gå til kassen",
+        "nl": "Dynamische betaalknop weergeven",
+        "pl": "Pokaż dynamiczny przycisk realizacji zakupu",
+        "pt-BR": "Exibir botão de checkout dinâmico",
+        "pt-PT": "Mostrar o botão dinâmico de finalização da compra",
+        "sv": "Visa dynamiska utcheckningsknappar",
+        "th": "แสดงปุ่มชำระเงินแบบไดนามิก",
+        "tr": "Dinamik ödeme düğmesini göster",
+        "vi": "Hiển thị nút thanh toán nhanh",
+        "zh-CN": "显示动态结账按钮",
+        "zh-TW": "顯示動態結帳按鈕"
+      },
+      "info": {
+        "cs": "Každý zákazník uvidí platební metodu, kterou ze všech metod dostupných v obchodě (například PayPal nebo Apple Pay) nejvíce preferuje. [Další informace](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "da": "Den enkelte kunde vil se sin foretrukne betalingsmetode blandt dem, der er tilgængelige i din butik, f.eks. PayPal eller Apple Pay. [Få mere at vide](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "de": "Jeder Kunde sieht seine bevorzugte Zahlungsmethode aus den in deinem Shop verfügbaren Zahlungsmethoden wie PayPal oder Apple Pay. [Mehr Informationen](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "en": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "es": "Cada cliente verá su forma de pago preferida entre las disponibles en tu tienda, como PayPal o Apple Pay. [Más información](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "fi": "Kukin asiakas näkee ensisijaisen valintansa kauppasi tarjoamista maksutavoista, esim. PayPal tai Apple Pay. [Lisätietoja](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "fr": "Chaque client verra son moyen de paiement préféré parmi ceux qui sont proposés sur votre boutique, tels que PayPal ou Apple Pay. [En savoir plus](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "it": "Ogni cliente vedrà il suo metodo di pagamento preferito tra quelli disponibili nel tuo negozio, come PayPal o Apple Pay. [Maggiori informazioni](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "ja": "PayPalやApple Payなど、ストアで利用可能な希望の決済方法がお客様に表示されます。[詳しくはこちら](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "ko": "각 고객은 PayPal 또는 Apple Pay와 같이 스토어에서 사용 가능한 지불 방법을 확인할 수 있습니다. [자세히 알아보기](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "nb": "Hver enkelt kunde vil se sin foretrukne betalingsmåte blant de som er tilgjengelig i butikken din, som PayPal eller Apple Pay. [Finn ut mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "nl": "Elke klant ziet zijn of haar beschikbare voorkeursmethode om af te rekenen, zoals PayPal of Apple Pay. [Meer informatie](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "pl": "Każdy klient zobaczy swoją preferowaną metodę płatności wśród metod dostępnych w Twoim sklepie, np. PayPal lub Apple Pay. [Dowiedz się więcej](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "pt-BR": "Cada cliente verá a forma de pagamento preferencial dele dentre as disponíveis na loja, como PayPal ou Apple Pay. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "pt-PT": "Cada cliente irá ver o seu método de pagamento preferido entre os disponíveis na loja, como o PayPal ou Apple Pay. [Saiba mais](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "sv": "Varje kund kommer att se den föredragna betalningsmetoden från de som finns tillgängliga i din butik, till exempel PayPal eller Apple Pay. [Läs mer](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "th": "ลูกค้าแต่ละรายจะเห็นวิธีการชำระเงินที่ต้องการจากวิธีที่ใช้ได้ในร้านค้าของคุณ เช่น PayPal หรือ Apple Pay [ดูข้อมูลเพิ่มเติม](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "tr": "Her müşteri, mağazanız sunulanlar arasından tercih ettikleri ödeme yöntemini görür (ör. PayPal veya Apple Pay). [Daha fazla bilgi edinin](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "vi": "Mỗi khách hàng sẽ thấy phương thức thanh toán ưu tiên trong những phương thức thanh toán được hỗ trợ tại cửa hàng như PayPal hoặc Apple Pay. [Tìm hiểu thêm](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "zh-CN": "每位客户都可在您商店提供的付款方式中看到他们的首选付款方式，例如 PayPal 或 Apple Pay。[了解详细信息](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+        "zh-TW": "每位顧客都可以在您商店內開放使用的付款方式中看見他們偏好使用的方式，如 PayPal、Apple Pay 等。[深入瞭解](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share_buttons",
+      "label": {
+        "cs": "Zobrazit tlačítka pro sdílení na sociálních sítích",
+        "da": "Vis knapper til deling på sociale medier",
+        "de": "Buttons für Social Media anzeigen",
+        "en": "Show social sharing buttons",
+        "es": "Mostrar botones para compartir en redes sociales",
+        "fi": "Näytä sosiaalisen median jakamispainikkeet",
+        "fr": "Affichez les boutons de partage sur les médias sociaux",
+        "it": "Mostra i pulsanti per la condivisione sui social",
+        "ja": "ソーシャルメディアでの共有ボタンを表示する",
+        "ko": "소셜 공유 버튼 표시",
+        "nb": "Vis knapper for deling på sosiale medier",
+        "nl": "Knoppen voor sociaal delen weergeven",
+        "pl": "Pokaż przyciski udostępniania w mediach społecznościowych",
+        "pt-BR": "Exibir botões de compartilhamento em redes sociais",
+        "pt-PT": "Mostrar botões de partilha nas redes sociais",
+        "sv": "Visa knappar för delning i sociala medier",
+        "th": "แสดงปุ่มสำหรับแชร์ลงโซเชียล",
+        "tr": "Sosyal medya paylaşım düğmelerini göster",
+        "vi": "Hiển thị nút chia sẻ qua mạng xã hội",
+        "zh-CN": "显示社交分享按钮",
+        "zh-TW": "顯示社群分享按鈕"
+      },
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": {
+        "cs": "Multimédia",
+        "da": "Medie",
+        "de": "Medien",
+        "en": "Media",
+        "es": "Elementos multimedia",
+        "fi": "Media",
+        "fr": "Support multimédia",
+        "it": "Media",
+        "ja": "メディア",
+        "ko": "미디어",
+        "nb": "Medier",
+        "nl": "Media",
+        "pl": "Multimedia",
+        "pt-BR": "Mídia",
+        "pt-PT": "Multimédia",
+        "sv": "Media",
+        "th": "สื่อ",
+        "tr": "Medya",
+        "vi": "Nội dung đa phương tiện",
+        "zh-CN": "媒体",
+        "zh-TW": "媒體"
+      },
+      "info": {
+        "cs": "Další informace o [typech multimédií](https://help.shopify.com/manual/products/product-media)",
+        "da": "Få mere at vide om [media types](https://help.shopify.com/manual/products/product-media)",
+        "de": "Mehr Informationen über [Medientypen ](https://help.shopify.com/manual/products/product-media)",
+        "en": "Learn more about [media types](https://help.shopify.com/manual/products/product-media)",
+        "es": "Más información sobre [tipos de archivos multimedia](https://help.shopify.com/manual/products/product-media)",
+        "fi": "Lue lisää [mediatyypeistä](https://help.shopify.com/manual/products/product-media)",
+        "fr": "En savoir plus sur les [types de supports multimédia](https://help.shopify.com/manual/products/product-media)",
+        "it": "Scopri di più sulle [tipologie di file multimediali](https://help.shopify.com/manual/products/product-media)",
+        "ja": "[メディアのタイプ](https://help.shopify.com/manual/products/product-media) について詳しくはこちら",
+        "ko": "[미디어 유형](https://help.shopify.com/manual/products/product-media)에 대해 자세히 알아보기",
+        "nb": "Lær mer om [medietyper](https://help.shopify.com/manual/products/product-media)",
+        "nl": "Meer informatie over [mediatypen](https://help.shopify.com/manual/products/product-media)",
+        "pl": "Dowiedz się więcej o [typach multimediów](https://help.shopify.com/manual/products/product-media)",
+        "pt-BR": "Saiba mais sobre [tipos de mídia](https://help.shopify.com/manual/products/product-media)",
+        "pt-PT": "Saiba mais sobre [media types](https://help.shopify.com/manual/products/product-media)",
+        "sv": "Läs mer om [mediatyper](https://help.shopify.com/manual/products/product-media)",
+        "th": "ดูข้อมูลเพิ่มเติมเกี่ยวกับ [ประเภทของสื่อ](https://help.shopify.com/manual/products/product-media)",
+        "tr": "[Medya türleri](https://help.shopify.com/manual/products/product-media) hakkında daha fazla bilgi edinin",
+        "vi": "Tìm hiểu thêm về [loại phương tiện](https://help.shopify.com/manual/products/product-media)",
+        "zh-CN": "详细了解[媒体类型](https://help.shopify.com/manual/products/product-media)",
+        "zh-TW": "深入瞭解 [媒體類型](https://help.shopify.com/manual/products/product-media)"
+      }
+    },
+    {
+      "type": "select",
+      "id": "media_size",
+      "label": {
+        "cs": "Velikost",
+        "da": "Størrelse",
+        "de": "Größe",
+        "en": "Size",
+        "es": "Tamaño",
+        "fi": "Koko",
+        "fr": "Taille",
+        "it": "Dimensione",
+        "ja": "サイズ",
+        "ko": "사이즈",
+        "nb": "Størrelse",
+        "nl": "Grootte",
+        "pl": "Rozmiar",
+        "pt-BR": "Tamanho",
+        "pt-PT": "Tamanho",
+        "sv": "Storlek",
+        "th": "ขนาด",
+        "tr": "Boyut",
+        "vi": "Cỡ",
+        "zh-CN": "尺寸",
+        "zh-TW": "尺寸"
+      },
+      "options": [
+        {
+          "value": "small",
+          "label": {
+            "cs": "Malá",
+            "da": "Lille",
+            "de": "Klein",
+            "en": "Small",
+            "es": "Pequeño",
+            "fi": "Pieni",
+            "fr": "Petit",
+            "it": "Piccolo",
+            "ja": "スモール",
+            "ko": "스몰",
+            "nb": "Liten",
+            "nl": "Klein",
+            "pl": "Mały",
+            "pt-BR": "Pequeno",
+            "pt-PT": "Pequeno",
+            "sv": "Liten",
+            "th": "เล็ก",
+            "tr": "Küçük",
+            "vi": "Nhỏ",
+            "zh-CN": "小",
+            "zh-TW": "小型"
+          }
+        },
+        {
+          "value": "medium",
+          "label": {
+            "cs": "Střední",
+            "da": "Medium",
+            "de": "Mittel",
+            "en": "Medium",
+            "es": "Mediano",
+            "fi": "Keskisuuri",
+            "fr": "Moyenne",
+            "it": "Medio",
+            "ja": "中",
+            "ko": "보통",
+            "nb": "Middels",
+            "nl": "Gemiddeld",
+            "pl": "Średni",
+            "pt-BR": "Médio",
+            "pt-PT": "Médio",
+            "sv": "Medium",
+            "th": "ปานกลาง",
+            "tr": "Orta",
+            "vi": "Trung bình",
+            "zh-CN": "中等",
+            "zh-TW": "中等"
+          }
+        },
+        {
+          "value": "large",
+          "label": {
+            "cs": "Velká",
+            "da": "Stor",
+            "de": "Groß",
+            "en": "Large",
+            "es": "Grande",
+            "fi": "Suuri",
+            "fr": "Grande",
+            "it": "Grande",
+            "ja": "大",
+            "ko": "라지",
+            "nb": "Stor",
+            "nl": "Groot",
+            "pl": "Duży",
+            "pt-BR": "Grande",
+            "pt-PT": "Grande",
+            "sv": "Stor",
+            "th": "ใหญ่",
+            "tr": "Büyük",
+            "vi": "Lớn",
+            "zh-CN": "大",
+            "zh-TW": "大型"
+          }
+        },
+        {
+          "value": "full",
+          "label": {
+            "cs": "Plná šířka",
+            "da": "Fuld bredde",
+            "de": "Volle Breite",
+            "en": "Full-width",
+            "es": "Ancho completo",
+            "fi": "Täysi leveys",
+            "fr": "Pleine largeur",
+            "it": "Intera larghezza",
+            "ja": "全幅",
+            "ko": "전체 폭",
+            "nb": "Full bredde",
+            "nl": "Volledige breedte",
+            "pl": "Pełna szerokość",
+            "pt-BR": "Largura completa",
+            "pt-PT": "Largura completa",
+            "sv": "Full bredd",
+            "th": "เต็มความกว้าง",
+            "tr": "Tam genişlikli",
+            "vi": "Độ rộng đầy đủ",
+            "zh-CN": "全宽",
+            "zh-TW": "完整寬度"
+          }
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": {
+        "cs": "Povolit zvětšení obrázku",
+        "da": "Aktivér billedzoom",
+        "de": "Foto-Zoom zulassen",
+        "en": "Enable image zoom",
+        "es": "Habilitar zoom de imagen",
+        "fi": "Ota kuvan zoomaus käyttöön",
+        "fr": "Activer le zoom d'image",
+        "it": "Abilita lo zoom dell'immagine",
+        "ja": "画像ズームを有効にする",
+        "ko": "이미지 확대 사용",
+        "nb": "Aktiver bildezoom",
+        "nl": "Inzoomen op afbeelding inschakelen",
+        "pl": "Włącz powiększenie obrazu",
+        "pt-BR": "Habilitar o zoom da imagem",
+        "pt-PT": "Ativar o zoom da imagem",
+        "sv": "Aktivera bildzoom",
+        "th": "เปิดใช้การซูมภาพ",
+        "tr": "Görsel yakınlaştırmayı etkinleştir",
+        "vi": "Bật thu phóng hình ảnh",
+        "zh-CN": "启用图片缩放",
+        "zh-TW": "啟用圖片縮放"
+      },
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": {
+        "cs": "Povolit smyčky videa",
+        "da": "Aktivér looping af videoer",
+        "de": "Videoschleife aktivieren",
+        "en": "Enable video looping",
+        "es": "Habilitar la reproducción de video en bucle",
+        "fi": "Ota käyttöön videosilmukka",
+        "fr": "Activer le bouclage de la vidéo",
+        "it": "Abilita la riproduzione in loop dei video",
+        "ja": "ビデオのループを有効にする",
+        "ko": "동영상 루프",
+        "nb": "Aktiver løkkeavspilling av video",
+        "nl": "Video-looping inschakelen",
+        "pl": "Włącz zapętlanie wideo",
+        "pt-BR": "Habilitar loop de vídeo",
+        "pt-PT": "Ativar ciclo de vídeo",
+        "sv": "Aktivera video-loopning",
+        "th": "เปิดใช้การวนซ้ำวิดีโอ",
+        "tr": "Video döngüsünü etkinleştir",
+        "vi": "Bật vòng lặp video",
+        "zh-CN": "启用视频循环",
+        "zh-TW": "啟用影片循環功能"
+      },
+      "default": false
+    },
+  	{
+        "type": "image_picker",
+        "id": "size_img",
+        "label": "Size Image"
+   	}
+  ]
+}
+{% endschema %}

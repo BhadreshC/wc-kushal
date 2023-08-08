@@ -1,0 +1,22 @@
+<iframe src="/products/2-piece-fruity-fresh-bodysuit-knit-pants-set" width="100%" height="500" id="myIframe" allowfullscreen></iframe>
+<script>
+  document.getElementById('myIframe').onload = function() {
+    var iframeDoc = document.getElementById('myIframe').contentDocument || document.getElementById('myIframe').contentWindow.document;
+    var headerElement = iframeDoc.getElementsByTagName('header')[0];
+    if (headerElement) {
+      headerElement.style.display = 'none';
+    }
+    var footerElement = iframeDoc.getElementsByTagName('footer')[0]
+    if (footerElement) {
+      footerElement.style.display = 'none';
+    }
+
+    var iframeWindow = document.getElementById('myIframe').contentWindow;
+    var button = iframeWindow.document.getElementById('myButton');
+    if (button) {
+      button.addEventListener('click', function(){
+        console.log('Button clicked!');
+      });
+    }
+  };
+</script>

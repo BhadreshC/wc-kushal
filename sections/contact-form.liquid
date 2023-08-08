@@ -1,0 +1,225 @@
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--five-sixths medium-up--push-one-twelfth">
+      <div class="section-header text-center">
+        <h1>{{ page.title }}</h1>
+      </div>
+
+      {% if page.content.size > 0 %}
+        <div class="rte">
+          {{ page.content }}
+        </div>
+      {% endif %}
+
+      <div class="contact-form form-vertical">
+        {% comment %}
+        {%- assign formId = 'ContactForm' -%}
+        {% form 'contact', id: formId %}
+          {% include 'form-status', form: form, form_id: formId %}
+
+          <div class="grid grid--half-gutters">
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-name">{{ 'contact.form.name' | t }}</label>
+              <input type="text" id="{{ formId }}-name" name="contact[{{ 'contact.form.name' | t }}]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+            </div>
+            <div class="grid__item medium-up--one-half">
+              <label for="{{ formId }}-email">{{ 'contact.form.email' | t }} <span aria-hidden="true">*</span></label>
+              <input
+                type="email"
+                id="{{ formId }}-email"
+                name="contact[email]"
+                autocorrect="off"
+                autocapitalize="off"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                aria-required="true"
+                {%- if form.errors contains 'email' -%}
+                  class="input--error"
+                  aria-invalid="true"
+                  aria-describedby="{{ formId }}-email-error"
+                {%- endif -%}
+                >
+              {%- if form.errors contains 'email' -%}
+                <span id="{{ formId}}-email-error" class="input-error-message">
+                  <span class="visually-hidden">{{ 'general.accessibility.error' | t }} </span>
+                  {% include 'icon-error' %}
+                  <span>{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}.</span>
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+
+          <label for="{{ formId }}-phone">{{ 'contact.form.phone' | t }}</label>
+          <input type="tel" id="{{ formId }}-phone" name="contact[{{ 'contact.form.phone' | t }}]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+
+          <label for="{{ formId }}-message">{{ 'contact.form.message' | t }}</label>
+          <textarea rows="10" id="{{ formId }}-message" name="contact[{{ 'contact.form.message' | t }}]">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+
+          <input type="submit" class="btn" value="{{ 'contact.form.submit' | t }}">
+
+        {% endform %}
+        {% endcomment %}
+        <div class="cf-form">
+          {%- form 'contact', id: 'ContactForm' -%}
+            <div class="cf-forminr">
+              <div class="field">
+                <input autocomplete="name" type="text" id="ContactForm-name" required name="contact[name]" placeholder="Name">
+                <label for="ContactForm-name" class="s-caption">Name</label>
+              </div>
+              <div class="cf_field">
+                <div class="field cf_fieldinr">
+                  <input
+                       autocomplete="email"
+                       type="email"
+                       id="ContactForm-email"
+                       name="contact[email]"
+                       spellcheck="false"
+                       autocapitalize="off"
+                       value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                       aria-required="true"
+                       {% if form.errors contains 'email' %}
+                       aria-invalid="true"
+                       aria-describedby="ContactForm-email-error"
+                       {% endif %}
+                       placeholder="Email"
+                       >
+                  <label for="ContactForm-email" class="s-caption">Email</label>
+                  {%- if form.errors contains 'email' -%}
+                  <small class="contact__field-error s-caption" id="ContactForm-email-error">
+                    <span class="form__message">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</span>
+                  </small>
+                  {%- endif -%}
+                </div>
+                <div class="field cf_fieldinr">
+                  <input type="tel" id="ContactForm-phone" autocomplete="tel" name="contact[phone]" pattern="[0-9\-]*" 
+                    value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}" placeholder="Phone">
+                  <label for="ContactForm-phone" class="s-caption">Phone</label>
+                </div>
+              </div>
+              <div class="field">
+                <input autocomplete="company" type="text" id="ContactForm-company" required name="contact[company]" placeholder="Company">
+                <label for="ContactForm-company" class="s-caption">Company</label>
+              </div>
+              <div class="field">
+                <textarea rows="4" id="ContactForm-project-description" name="contact[project-description]" placeholder="Project description">{{- form.body -}}</textarea>
+                <label for="ContactForm-project-description" class="s-caption">Project description</label>
+              </div>
+            </div>
+            <div class="cf-inter">
+              <p class="s-body">I’m interested in</p>
+              <div class="cf-interinr">
+                {%- assign count = 0 -%}
+                {%- for block in section.blocks -%}
+                  {%- if block.type == 'im-interested' -%}
+                    {%- assign count = count | plus:1 -%}
+                    <div class="cf-interinfo block-id-{{ block.id }}">
+                      {%- if block.settings.title != blank -%}<label class="xs-body cf-intertitle" for="{{ block.settings.title | escape }}">{{ block.settings.title | escape }}</label>{%- endif -%}
+                      <div class="cf-interlist">
+                        {%- assign list = block.settings.list | split:',' -%}
+                        {%- assign first_val = '' -%}
+                        {%- for val in list limit:1 -%}
+                          {%- assign first_val = val -%}
+                        {%- endfor -%}
+                        <input type="hidden" id="{{ block.settings.title | escape }}" name="contact[{{ block.settings.title | escape }}]" value="{% if count == 1 %}{{ first_val }}{% endif %}">
+                        <ul class="help_listcls">
+                          {%- for info in list -%}
+                            <li>
+                              <a href="javascript:void(0);"{% if forloop.first %}{% if count == forloop.index %} class="active"{% endif %}{% endif %} data-name="{{ block.settings.title | escape }}">{{- info | escape -}}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <div class="cf-inter-all">
+                <input type="checkbox" name="all" value="{{ info }}" id="ContactForm-all">
+                <label for="ContactForm-all">all</label>
+              </div>
+            </div>
+            <button type="submit" class="button-full button-stone">
+              <p class="button">
+                <span class="label">Submit</span>
+              </p>
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .help_listcls a.active{color:#ccc;}
+</style>
+<script>
+$(document).on('change','.cf-inter-all input[type="checkbox"]',function(){
+  var all_data = false;
+  if($(this).is(':checked') == true){
+    all_data = true;
+  }
+  $(this).parents('.cf-inter').find('.cf-interinfo').each(function(){
+    var arr = [];
+    $(this).find('.help_listcls li a').each(function(){
+      var val = $(this).text();
+      var i = arr.indexOf(val);
+      if(all_data){
+        arr.push(val);
+        $(this).addClass('active');
+        $('.cf-inter-all a').addClass('active');
+      }else{
+        arr.splice(i,1);
+        $(this).removeClass('active');
+        $('.cf-inter-all a').removeClass('active');
+      }
+      $(this).parents('.help_listcls').prev('input[type="hidden"]').attr('value',arr);
+    });
+  });
+});
+$(document).on('click','.cf-interinfo a',function(){
+  $(this).toggleClass('active');
+  $('.help_listcls').each(function(){
+    var text = '';
+    $(this).find('a.active').each(function(i){
+      var length = $(this).length;
+      if(i === length + 1) {
+        text += $(this).text();
+      }else{
+        text += $(this).text() + ', ';
+      }
+    });
+    $(this).prev('input[type="hidden"]').val(text); 
+  });
+});
+</script>
+{% schema %}
+{
+  "name": "Contact Form",
+  "settings": [
+    
+  ],
+  "blocks":[
+    {
+      "name":"I'm Interested",
+      "type":"im-interested",
+      "settings":[
+        {
+          "type":"text",
+          "id":"title",
+          "label":"Heading"
+        },
+        {
+          "type":"textarea",
+          "id":"list",
+          "label":"List"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

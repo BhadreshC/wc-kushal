@@ -1,0 +1,295 @@
+{%- section 'account' -%}
+
+
+<div class="page-width account_page">
+  <div class="row my_account">
+  	<div class="col-lg-4">
+      <h1>{{ 'customer.account.title' | t }}</h1>
+    </div>
+    <div class="col-lg-8">
+      <div class="my_account_sec">
+        <table class="mb-0">
+          <tr>
+            <td>{{ 'customer.register.first_name' | t }}</td>
+            <td>{{ customer.first_name }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'customer.register.last_name' | t }}</td>
+            <td>{{ customer.last_name }}</td>
+          </tr>
+          <tr>
+            <td>{{ 'customer.register.email' | t }}</td>
+            <td>{{ customer.email }}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <div class="account_address">
+    <div class="row my_address">
+      <div class="col-lg-4">
+        <h2>{{ 'customer.account.details' | t }}</h2>
+      </div>
+      <div class="col-lg-8">
+        <a href="#" class="add_new_address" aria-expanded="false">{{ 'customer.addresses.add_new' | t }}</a>
+
+        <div id="AddressNewForm" class="form-vertical">
+          {% form 'customer_address', customer.new_address %}
+          <div class="grid">
+            <div class="grid__item">
+              <input type="text" id="AddressCompanyNew" name="address[company]" value="{{ form.company }}" autocomplete="organization" placeholder="Company">
+            </div>
+          </div>
+          <div class="grid">
+            <div class="grid__item medium-up--one-half">
+              <input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" placeholder="First name">
+            </div>
+            <div class="grid__item medium-up--one-half">
+              <input type="text" id="AddressLastNameNew" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" placeholder="Last name">
+            </div>
+          </div>
+          <div class="grid">
+            <div class="grid__item">
+              <input type="text" id="AddressAddress1New" name="address[address1]" value="{{ form.address1 }}" autocomplete="street-address address-line1" placeholder="Streetname + house number">
+              <input type="text" id="AddressAddress2New" name="address[address2]" value="{{ form.address2 }}" autocomplete="street-address address-line2" placeholder="Building, apt, floor etc">
+            </div>
+          </div>
+          <div class="grid">
+            <div class="grid__item medium-up--one-half">
+              <input type="text" id="AddressZipNew" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" placeholder="Zip code">
+            </div>
+            <div class="grid__item medium-up--one-half">
+              <input type="text" id="AddressCityNew" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" placeholder="City">
+            </div>
+          </div>
+          <div class="grid">
+            <div class="grid__item">
+              <select id="AddressCountryNew" name="address[country]" data-default="{{ form.country }}" autocomplete="country">{{ all_country_option_tags }}</select>
+            </div>
+          </div>
+          <div id="AddressProvinceContainerNew" style="display:none">
+            <select id="AddressProvinceNew" name="address[province]" data-default="{{ form.province }}" autocomplete="address-level1"></select>
+          </div>
+          <input type="tel" id="AddressPhoneNew" name="address[phone]" value="{{ form.phone }}" autocomplete="phone" placeholder="Phone number">
+
+          <div class="d-flex add_form_bottom">
+            <div class="ml-0 defalut_add">
+              {{ form.set_as_default_checkbox }}
+              <label for="address_default_address_new">{{ 'customer.addresses.set_default' | t }}</label>
+            </div>
+            <div class="mr-0">
+              <input type="submit" class="btn add_new text-light" value="{{ 'customer.addresses.add' | t }}">
+            </div>
+          </div>
+          {% endform %}
+        </div>
+
+        <ul>
+          {% for address in customer.addresses %}
+          <li>
+            <div class="address d-flex">
+              
+              <div class="order_name">
+                <span>{{address.first_name}}</span>
+                <span>{{address.last_name}}</span>
+              </div>
+              <div class="order_add">
+                <span>{{address.address1}}</span><br>
+                <span>{{address.address2}}</span><br>
+                <span>{{ address.country }}</span>
+              </div>
+              <div class="edit_delete">
+				<a href="#" type="button" class="edit_btn" aria-expanded="false" aria-owns="EditAddress_{{ address.id }}" id="EditFormButton_{{ address.id }}">{{ 'customer.addresses.edit' | t }}</a>
+                <a href="#" type="button" class="address-delete" data-target="{{ address.url }}" data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}">{{ 'customer.addresses.delete' | t }}</a>              	
+              </div>
+            </div>
+
+
+            <div id="EditAddress_{{ address.id }}" class="form-vertical edit_form">
+              {% form 'customer_address', address %}
+              <div class="grid">
+                <input type="text" id="AddressCompany_{{ form.id }}" name="address[company]" value="{{ form.company }}" autocomplete="organization" placeholder="Company">
+              </div>	
+              <div class="grid">
+                <div class="grid__item medium-up--one-half">
+                  <input type="text" id="AddressFirstName_{{ form.id }}" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name" placeholder="First name">
+                </div>
+                <div class="grid__item medium-up--one-half">
+                  <input type="text" id="AddressLastName_{{ form.id }}" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name" placeholder="Last name">
+                </div>
+              </div>
+              <div class="grid">
+                <input type="text" id="AddressAddress1_{{ form.id }}" name="address[address1]" value="{{ form.address1 }}" autocomplete="street-address address-line1" placeholder="Streetname + house number">
+                <input type="text" id="AddressAddress2_{{ form.id }}" name="address[address2]" value="{{ form.address2 }}" autocomplete="street-address address-line2" placeholder="Building, apt, floor etc">
+              </div>
+              <div class="grid">
+                <div class="grid__item medium-up--one-half">
+                  <input type="text" id="AddressZip_{{ form.id }}" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code" placeholder="Zip code">
+                </div>
+                <div class="grid__item medium-up--one-half">
+                  <input type="text" id="AddressCity_{{ form.id }}" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" placeholder="City">
+                </div>
+              </div>
+              <div class="grid">
+                <select id="AddressCountry_{{ form.id }}" class="address-country-option" data-form-id="{{ form.id }}" name="address[country]" data-default="{{ form.country }}" autocomplete="country">{{ all_country_option_tags }}</select>
+                <div id="AddressProvinceContainer_{{ form.id }}" style="display:none">
+                  <select id="AddressProvince_{{ form.id }}" name="address[province]" data-default="{{ form.province }}" autocomplete="address-level1"></select>
+                </div>
+              </div>
+              <div class="grid">
+                <div class="grid__item">
+                  <input type="tel" id="AddressPhone_{{ form.id }}" name="address[phone]" value="{{ form.phone }}" autocomplete="phone" placeholder="Phone number">
+                </div>
+              </div>
+              <div class="d-flex add_form_bottom">
+                <div class="ml-0 defalut_add">
+                  {{ form.set_as_default_checkbox }}
+                  <label for="address_default_address_{{ form.id }}">{{ 'customer.addresses.set_default' | t }}</label>
+                </div>
+                <div class="mr-0">
+                  <input type="submit" class="btn edit_add text-light" value="{{ 'customer.addresses.update' | t }}">
+                </div>
+              </div>
+              {% endform %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>      
+      </div>
+    </div>
+  </div>
+   
+  <div class="row order_history">
+  	<div class="col-lg-4">
+      <h2>{{ 'customer.orders.title' | t }}</h2>
+    </div>
+    <div class="col-lg-8">
+      
+      {% if customer.orders.size != 0 %}
+      {% for order in customer.orders %}
+      <div class="row order_main_tr">
+        <div class="col-lg-2">
+          <span>{{ 'customer.orders.order_number' | t }}</span>
+          <span>
+            <a href="{{ order.customer_url }}" aria-label="{{ 'customer.orders.order_number_link' | t: number: order.name }}">{{ order.name }}</a>
+          </span>
+        </div>
+        <div class="col-lg-3">
+          <span>{{ 'customer.orders.date' | t }}:</span>
+          <span>{{ order.created_at | time_tag: format: 'date' }}</span>
+        </div>
+        <div class="col-lg-4">
+          <span>{{ 'customer.orders.payment_status' | t }}:</span>
+          <span>{{ order.financial_status_label }}</span>
+        </div>
+        <div class="col-lg-3">
+          <span>{{ 'customer.orders.total' | t }}:</span>
+          <span>{{ order.total_price | money }}</span>
+        </div>
+      </div>
+      
+     
+      <div class="product_order"> 
+        <div class="account_address">
+          {%- for line_item in order.line_items -%}
+          <div class="row order_pro">
+            <div class="col-lg-4">
+              {{ line_item.image | img_url: 'master' | img_tag }}
+            </div>
+            <div class="col-lg-8">
+              <div class="order_pro_title">{{ line_item.title }}</div>
+              <div class="d-flex order_swatches">
+                <div class="ml-0">
+                  <div>
+                    <span>{{ 'customer.order.quantity' | t }}</span>
+                    <span>{{ line_item.quantity }}</span>
+                  </div>
+                  {% unless line_item.product.has_only_default_variant %}
+                  <ul>
+                    {% for option in line_item.options_with_values %}
+                    <li>{{ option.name }}: {{ option.value }}</li>
+                    {% endfor %}
+                  </ul>
+                  {% endunless %}
+                </div>
+                <div class="mr-1">
+                  <ul class="text-right" data-label="{{ 'customer.order.total' | t }}">
+                    {%- if line_item.original_line_price != line_item.final_line_price -%}
+                    <li>
+                      <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                      <s>{{ line_item.original_line_price | money }}</s>
+                      <span class="visually-hidden">{{ 'products.product.sale_price' | t }}</span>
+                      <span class="order-discount">{{ line_item.final_line_price | money }}</span>
+                    </li>
+                    {%- else -%}
+                    {{ line_item.original_line_price | money }}
+                    {%- endif -%}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {%- endfor -%}
+        </div>      
+        <ul class="account_address order_tax w-100 float-right text-right">
+          <li>
+            <span class="small--hide" scope="row" colspan="4">{{ 'customer.order.subtotal' | t }}</span>
+            <span class="text-right" data-label="{{ 'customer.order.subtotal' | t }}">{{ order.line_items_subtotal_price | money }}</span>
+          </li>
+          {%- if order.cart_level_discount_applications != blank -%}
+          <li>
+            {%- for discount_application in order.cart_level_discount_applications -%}
+            <span class="small--hide" scope="row" colspan="4">
+              {{ 'customer.order.discount' | t }}
+              <span class="order-discount order-discount--title">
+                {% include 'icon-saletag' %}{{- discount_application.title -}}
+              </span>
+            </span>
+            <span class="text-right" data-label="{{ 'customer.order.discount' | t }}">
+              <div class="order-discount-wrapper">
+                <span class="order-discount order-discount--title text-left medium-up--hide">
+                  {% include 'icon-saletag' %}{{- discount_application.title -}}
+                </span>
+                <span class="order-discount">-{{ discount_application.total_allocated_amount | money }}</span>
+              </div>
+            </span>
+            {%- endfor -%}
+          </li>
+          {%- endif -%}
+          {%- for shipping_method in order.shipping_methods -%}
+          <li>
+            <span class="small--hide" scope="row" colspan="4">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</span>
+            <span class="text-right" data-label="{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})">{{ shipping_method.price | money }}</span>
+          </li>
+          {%- endfor -%}
+          {%- for tax_line in order.tax_lines -%}
+          <li>
+            <span class="small--hide" scope="row" colspan="4">{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+            <span class="text-right" data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)">{{ tax_line.price | money }}</span>
+          </li>
+          {%- endfor -%}
+          <li>
+            <span class="small--hide" scope="row" colspan="4">{{ 'customer.order.total' | t }}</span>
+            <span class="text-right" data-label="{{ 'customer.order.total' | t }}">{{ order.total_price | money_with_currency }}</span>
+          </li>
+        </ul>
+        <div class="d-flex w-100 account_address order_address">
+          <div class="ml-0">
+            <h3 class="mb-2"><strong>{{ 'customer.order.billing_address' | t }}</strong></h3>
+            {{ order.billing_address | format_address }}
+          </div>
+          <div class="ml-0">
+            <h3 class="mb-2"><strong>{{ 'customer.order.shipping_address' | t }}</strong></h3>
+            {{ order.shipping_address | format_address }}
+          </div>
+        </div>
+      </div>
+  
+      
+      {% endfor %}
+      {% endif %}
+
+    </div>
+  </div>
+</div>

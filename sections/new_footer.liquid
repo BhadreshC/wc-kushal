@@ -1,0 +1,152 @@
+<footer class="wrap_block footer">
+    <div class="row m-0 footer_sec">
+      
+      {% for block in section.blocks %}
+      {% if block.type == 'about'%}
+      <div class="col-sm-6 col-lg-2 about">
+        {% if block.settings.title != blank %}<h3>{{ block.settings.title }}</h3>{% endif %}
+        {% if block.settings.detail != blank %}<p>{{ block.settings.detail }}</p>{% endif %}
+        <div class="current_lan">
+          <h4>current language</h4>
+          <a href="#">
+            <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0)">
+                <path d="M-5.271 0H26.313V21.056H-5.271V0Z" fill="#012169"/>
+                <path d="M-5.271 0V2.35235L22.7814 21.056H26.313V18.7036L-1.73939 0H-5.271ZM26.313 0V2.35235L-1.73939 21.056H-5.271V18.7036L22.7814 0H26.313Z" fill="#F9F9F9"/>
+                <path d="M7.89003 0V21.056H13.152V0H7.89003ZM-5.271 7.02003V14.036H26.313V7.02003H-5.271Z" fill="#F9F9F9"/>
+                <path d="M-5.271 8.4224V12.6336H26.313V8.4224H-5.271ZM8.9418 0V21.056H12.1002V0H8.9418ZM-5.271 21.056L5.25597 14.036H7.61243L-2.91762 21.056H-5.271ZM-5.271 0L5.25597 7.02003H2.90259L-5.271 1.57097V0ZM13.4326 7.02003L23.9596 0H26.313L15.786 7.02003H13.4326ZM26.313 21.056L15.786 14.036H18.1394L26.313 19.485V21.056Z" fill="#C8102E"/>
+              </g>
+              <defs>
+                <clipPath id="clip0">
+                  <rect width="21" height="21" rx="10.5" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+            <span>english</span>
+          </a>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+      
+      <div class="col-sm-12 col-lg-6 footer_menu">
+        <div class="row">
+          {% for block in section.blocks %}
+          {% if block.type == 'menu'%}
+          <div class="col-sm-4 col-lg-2">
+            {% if block.settings.title != blank %}<h3>{{ block.settings.title }}</h3>{% endif %}
+            {% assign footer_menu = linklists[block.settings.menu] %}
+            <ul>
+              {% for link in footer_menu.links %}
+              <li class="{% if link.active %}active{% endif %}">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          {% endfor %}
+          <div class="col-sm-4 col-lg-2">
+            <h3>social media</h3>
+            <ul>
+              <li>
+                <a href="#">
+                  <svg xmlns="http://www.w3.org/2000/svg" id="Bold" enable-background="new 0 0 24 24" height="12px" viewBox="0 0 24 24" width="12px"><path d="m15.997 3.985h2.191v-3.816c-.378-.052-1.678-.169-3.192-.169-3.159 0-5.323 1.987-5.323 5.639v3.361h-3.486v4.266h3.486v10.734h4.274v-10.733h3.345l.531-4.266h-3.877v-2.939c.001-1.233.333-2.077 2.051-2.077z"/></svg>
+                </a>
+                <a href="#" class="social">facebook</a>
+              </li>
+              <li>
+                <a href="#">
+          			<svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 0 511 511.9" width="12px"><path d="m510.949219 150.5c-1.199219-27.199219-5.597657-45.898438-11.898438-62.101562-6.5-17.199219-16.5-32.597657-29.601562-45.398438-12.800781-13-28.300781-23.101562-45.300781-29.5-16.296876-6.300781-34.898438-10.699219-62.097657-11.898438-27.402343-1.300781-36.101562-1.601562-105.601562-1.601562s-78.199219.300781-105.5 1.5c-27.199219 1.199219-45.898438 5.601562-62.097657 11.898438-17.203124 6.5-32.601562 16.5-45.402343 29.601562-13 12.800781-23.097657 28.300781-29.5 45.300781-6.300781 16.300781-10.699219 34.898438-11.898438 62.097657-1.300781 27.402343-1.601562 36.101562-1.601562 105.601562s.300781 78.199219 1.5 105.5c1.199219 27.199219 5.601562 45.898438 11.902343 62.101562 6.5 17.199219 16.597657 32.597657 29.597657 45.398438 12.800781 13 28.300781 23.101562 45.300781 29.5 16.300781 6.300781 34.898438 10.699219 62.101562 11.898438 27.296876 1.203124 36 1.5 105.5 1.5s78.199219-.296876 105.5-1.5c27.199219-1.199219 45.898438-5.597657 62.097657-11.898438 34.402343-13.300781 61.601562-40.5 74.902343-74.898438 6.296876-16.300781 10.699219-34.902343 11.898438-62.101562 1.199219-27.300781 1.5-36 1.5-105.5s-.101562-78.199219-1.300781-105.5zm-46.097657 209c-1.101562 25-5.300781 38.5-8.800781 47.5-8.601562 22.300781-26.300781 40-48.601562 48.601562-9 3.5-22.597657 7.699219-47.5 8.796876-27 1.203124-35.097657 1.5-103.398438 1.5s-76.5-.296876-103.402343-1.5c-25-1.097657-38.5-5.296876-47.5-8.796876-11.097657-4.101562-21.199219-10.601562-29.398438-19.101562-8.5-8.300781-15-18.300781-19.101562-29.398438-3.5-9-7.699219-22.601562-8.796876-47.5-1.203124-27-1.5-35.101562-1.5-103.402343s.296876-76.5 1.5-103.398438c1.097657-25 5.296876-38.5 8.796876-47.5 4.101562-11.101562 10.601562-21.199219 19.203124-29.402343 8.296876-8.5 18.296876-15 29.398438-19.097657 9-3.5 22.601562-7.699219 47.5-8.800781 27-1.199219 35.101562-1.5 103.398438-1.5 68.402343 0 76.5.300781 103.402343 1.5 25 1.101562 38.5 5.300781 47.5 8.800781 11.097657 4.097657 21.199219 10.597657 29.398438 19.097657 8.5 8.300781 15 18.300781 19.101562 29.402343 3.5 9 7.699219 22.597657 8.800781 47.5 1.199219 27 1.5 35.097657 1.5 103.398438s-.300781 76.300781-1.5 103.300781zm0 0"/><path d="m256.449219 124.5c-72.597657 0-131.5 58.898438-131.5 131.5s58.902343 131.5 131.5 131.5c72.601562 0 131.5-58.898438 131.5-131.5s-58.898438-131.5-131.5-131.5zm0 216.800781c-47.097657 0-85.300781-38.199219-85.300781-85.300781s38.203124-85.300781 85.300781-85.300781c47.101562 0 85.300781 38.199219 85.300781 85.300781s-38.199219 85.300781-85.300781 85.300781zm0 0"/><path d="m423.851562 119.300781c0 16.953125-13.746093 30.699219-30.703124 30.699219-16.953126 0-30.699219-13.746094-30.699219-30.699219 0-16.957031 13.746093-30.699219 30.699219-30.699219 16.957031 0 30.703124 13.742188 30.703124 30.699219zm0 0"/></svg>
+                </a>
+                <a href="#" class="social">instagram</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {% for block in section.blocks %}
+      {% if block.type == 'newsletter'%}
+      <div class="col-sm-6 col-lg-2 newsletter">
+        {% if block.settings.title != blank %}<h3>{{ block.settings.title }}</h3>{% endif %}
+        {% if block.settings.detail != blank %}<p>{{ block.settings.detail }}</p>{% endif %}
+        <form>
+          <div class="form-group">
+            <input type="email" class="form-control" autocomplete="off" aria-describedby="emailHelp" placeholder="Enter your email address">
+            <a href="#" class="footer_arrow">
+              <svg width="19" height="24" viewBox="0 0 19 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.49984 6L15.0415 13L9.49984 20M3.95817 13L15.0415 13L3.95817 13Z" stroke="black"/>
+              </svg>
+            </a>
+          </div>
+        </form> 
+      </div>
+      {% endif %}
+      {% endfor %}
+      
+    </div>
+</footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [],
+    "blocks":[
+      {
+          "type": "about",
+          "name": "About",
+          "settings":[	
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Heading"
+          },
+		  {
+              "type": "textarea",
+              "id": "detail",
+              "label": "Heading"
+          }
+          ]
+      },
+      {
+          "type": "menu",
+          "name": "Menu",
+          "settings":[
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Heading"
+          },
+          {
+              "type": "link_list",
+              "id": "menu",
+              "label": "Footer Menu"
+          }
+          ]
+      },
+      {
+          "type": "newsletter",
+          "name": "Newsletter",
+          "settings":[
+          {
+              "type": "text",
+              "id": "title",
+              "label": "Title"
+          },
+          {
+              "type": "textarea",
+              "id": "detail",
+              "label": "Newsletter Detail"
+          }
+          ]
+      }
+      ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

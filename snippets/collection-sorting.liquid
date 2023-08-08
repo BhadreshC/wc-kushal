@@ -1,0 +1,33 @@
+<ul name="SortBy" id="SortBy">
+  {% for option in collection.sort_options %} 
+  <li data-value="{{ option.value }}" {% if option.value == collection.sort_by %}class="active"{% endif %}><a href="#">{{ option.name }}</a></li>
+  {% endfor %}
+</ul>
+
+<script>
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  var $select = $('#SortBy');
+  $('ul#SortBy li').click(function () {
+    $select.val( $(this).data('value') );
+    event.preventDefault();
+    Shopify.queryParams.sort_by = jQuery(this).data('value');
+    location.search = jQuery.param(Shopify.queryParams);   
+  });
+
+  $(function() {
+    $('#SortBy').val('title-ascending')
+    .bind('change', function() {
+      Shopify.queryParams.sort_by = jQuery(this).val();
+      location.search = jQuery.param(Shopify.queryParams);
+    });
+  });
+</script>

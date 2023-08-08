@@ -1,0 +1,1002 @@
+{
+  "current": {
+    "sections": {
+      "header": {
+        "type": "header",
+        "settings": {
+          "align_logo": "center",
+          "logo": "shopify:\/\/shop_images\/logo_213479b9-f152-464d-84ff-d9bddfe68a70.png",
+          "logo_max_width": 250,
+          "main_linklist": "header",
+          "message": true,
+          "home_page_only": false,
+          "message_text": "Promotional top bar with text, for ex; Free shipping on all orders over €100",
+          "color_bg": "#000000",
+          "color_text": "#ffffff"
+        }
+      },
+      "feature-row": {
+        "type": "feature-row",
+        "disabled": true,
+        "settings": {
+          "layout": "left",
+          "title": "Image with text",
+          "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.<\/p>",
+          "button_label": ""
+        }
+      },
+      "feature-columns": {
+        "type": "feature-columns",
+        "disabled": true,
+        "blocks": {
+          "feature-columns-0": {
+            "type": "text_block",
+            "settings": {
+              "enable_image": true,
+              "title": "Add a title or tagline",
+              "text": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.<\/p>",
+              "button_label": ""
+            }
+          },
+          "feature-columns-1": {
+            "type": "text_block",
+            "settings": {
+              "enable_image": true,
+              "title": "Add a title or tagline",
+              "text": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.<\/p>",
+              "button_label": ""
+            }
+          },
+          "feature-columns-2": {
+            "type": "text_block",
+            "settings": {
+              "enable_image": true,
+              "title": "Add a title or tagline",
+              "text": "<p>Share blog posts, products, or promotions with your customers. Use this text to describe products, share details on availability and style, or as a space to display recent reviews or FAQs.<\/p>",
+              "button_label": ""
+            }
+          }
+        },
+        "block_order": [
+          "feature-columns-0",
+          "feature-columns-1",
+          "feature-columns-2"
+        ],
+        "settings": {
+          "title": "",
+          "align_text": "left"
+        }
+      },
+      "collection": {
+        "type": "collection",
+        "disabled": true,
+        "settings": {
+          "title": "Featured collection",
+          "collection": "",
+          "grid": 4,
+          "rows": 2,
+          "show_vendor": false,
+          "show_view_all": false
+        }
+      },
+      "quotes": {
+        "type": "quotes",
+        "disabled": true,
+        "blocks": {
+          "quotes-0": {
+            "type": "quote",
+            "settings": {
+              "quote": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.<\/p>",
+              "author": "Author's name"
+            }
+          },
+          "quotes-1": {
+            "type": "quote",
+            "settings": {
+              "quote": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.<\/p>",
+              "author": "Author's name"
+            }
+          },
+          "quotes-2": {
+            "type": "quote",
+            "settings": {
+              "quote": "<p>Add customer reviews and testimonials to showcase your store’s happy customers.<\/p>",
+              "author": "Author's name"
+            }
+          }
+        },
+        "block_order": [
+          "quotes-0",
+          "quotes-1",
+          "quotes-2"
+        ],
+        "settings": {
+          "title": ""
+        }
+      },
+      "image-bar": {
+        "type": "image-bar",
+        "disabled": true,
+        "blocks": {
+          "image-bar-0": {
+            "type": "image",
+            "settings": {
+              "alignment": "center",
+              "cta_label": ""
+            }
+          },
+          "image-bar-1": {
+            "type": "image",
+            "settings": {
+              "alignment": "center",
+              "cta_label": ""
+            }
+          },
+          "image-bar-2": {
+            "type": "image",
+            "settings": {
+              "alignment": "center",
+              "cta_label": ""
+            }
+          }
+        },
+        "block_order": [
+          "image-bar-0",
+          "image-bar-1",
+          "image-bar-2"
+        ],
+        "settings": {
+          "section_height": "medium"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "footer-0": {
+            "type": "link_list",
+            "settings": {
+              "title": "Quick links",
+              "menu": "footer"
+            }
+          },
+          "footer-1": {
+            "type": "newsletter",
+            "settings": {
+              "title": "Newsletter"
+            }
+          }
+        },
+        "block_order": [
+          "footer-0",
+          "footer-1"
+        ],
+        "settings": {
+          "show_payment_icons": true,
+          "color_footer_bg": "#f6f6f6",
+          "color_footer_text": "#333232",
+          "show_locale_selector": true,
+          "show_currency_selector": true
+        }
+      },
+      "new_header": {
+        "type": "new_header",
+        "blocks": {
+          "ceb10455-e0a0-43ac-971e-0033a231da1f": {
+            "type": "text",
+            "settings": {
+              "title": "shop",
+              "detail": "New Bags",
+              "btn": "shop now",
+              "image": "shopify:\/\/shop_images\/image_2.png",
+              "alignment": "center"
+            }
+          },
+          "0e2e55d6-ff2a-4c6b-923a-b285eda170d2": {
+            "type": "text",
+            "settings": {
+              "title": "shop",
+              "detail": "",
+              "btn": "shop latest jackets",
+              "image": "shopify:\/\/shop_images\/image_3.png",
+              "alignment": "bottom"
+            }
+          }
+        },
+        "block_order": [
+          "ceb10455-e0a0-43ac-971e-0033a231da1f",
+          "0e2e55d6-ff2a-4c6b-923a-b285eda170d2"
+        ],
+        "settings": {
+          "logo": "shopify:\/\/shop_images\/logo_213479b9-f152-464d-84ff-d9bddfe68a70.png",
+          "announcement": "Promotional top bar with text, for ex; Free shipping on all orders over €100",
+          "menu": "header",
+          "head_language": false,
+          "logo_max_width": 170
+        }
+      },
+      "new_footer": {
+        "type": "new_footer",
+        "blocks": {
+          "a22aa2ff-ee73-4866-8174-583ddc9cdd19": {
+            "type": "about",
+            "settings": {
+              "title": "about yaya",
+              "detail": "YAYA is a lifestyle brand. We create comfortable and feminine collections, which are easy to style and to love seasons long. We’re known for our designs in soft fabrics and toned down colors."
+            }
+          },
+          "ea13c2d5-2bc3-4e55-8e23-fa74f157542c": {
+            "type": "menu",
+            "settings": {
+              "title": "customer care",
+              "menu": "customer-care"
+            }
+          },
+          "27a26222-5b48-41d2-bda9-6e9e4be2ae6a": {
+            "type": "menu",
+            "settings": {
+              "title": "info",
+              "menu": "info-1"
+            }
+          },
+          "dd1a1d03-0d4a-417f-92a4-94bcb6df1610": {
+            "type": "newsletter",
+            "settings": {
+              "title": "newsletter",
+              "detail": "Subscribe to get the latest updates"
+            }
+          }
+        },
+        "block_order": [
+          "a22aa2ff-ee73-4866-8174-583ddc9cdd19",
+          "ea13c2d5-2bc3-4e55-8e23-fa74f157542c",
+          "27a26222-5b48-41d2-bda9-6e9e4be2ae6a",
+          "dd1a1d03-0d4a-417f-92a4-94bcb6df1610"
+        ],
+        "settings": {
+        }
+      },
+      "1613564928077a6649": {
+        "type": "banner",
+        "settings": {
+          "banner_img": "shopify:\/\/shop_images\/Banner.png",
+          "title": "nye pieces",
+          "btn": "shop now"
+        }
+      },
+      "1613623530bf40c25b": {
+        "type": "shop_arrivals",
+        "settings": {
+          "title": "Shop New Arrivals",
+          "detail": "Explore our most recent launches and timeless wardrobe staples",
+          "collection": "shop-arrivals"
+        }
+      },
+      "16136306136fb82e5c": {
+        "type": "get_look",
+        "blocks": {
+          "e09b4ebb-e07e-4806-aa14-17648c880a38": {
+            "type": "collection",
+            "settings": {
+              "collection": "shop-arrivals",
+              "alignment": "top-left"
+            }
+          },
+          "f50892ca-0c54-440e-a47c-2fa02481af63": {
+            "type": "collection",
+            "settings": {
+              "collection": "blazers",
+              "alignment": "center-center"
+            }
+          },
+          "1965f527-c969-4fd8-9933-56af553037f6": {
+            "type": "collection",
+            "settings": {
+              "collection": "jackets",
+              "alignment": "bottom-left"
+            }
+          },
+          "2ea57bce-102c-4141-b82c-a2845e00a46d": {
+            "type": "collection",
+            "settings": {
+              "collection": "swimsuits",
+              "alignment": "center-left"
+            }
+          }
+        },
+        "block_order": [
+          "e09b4ebb-e07e-4806-aa14-17648c880a38",
+          "f50892ca-0c54-440e-a47c-2fa02481af63",
+          "1965f527-c969-4fd8-9933-56af553037f6",
+          "2ea57bce-102c-4141-b82c-a2845e00a46d"
+        ],
+        "settings": {
+          "title": "Get the look",
+          "detail": "Explore our most recent launches and timeless wardrobe staples"
+        }
+      },
+      "16137262795884baed": {
+        "type": "shop_collection",
+        "blocks": {
+          "8e6aabae-c7d6-4242-aea9-9bf602a69aab": {
+            "type": "collection",
+            "settings": {
+              "collection": "shop-arrivals"
+            }
+          },
+          "107f4094-d221-45e1-9da4-d31bb22d9bdd": {
+            "type": "collection",
+            "settings": {
+              "collection": "jackets"
+            }
+          },
+          "a384f413-c358-4890-a83a-10e7da12ea96": {
+            "type": "collection",
+            "settings": {
+              "collection": "blazers"
+            }
+          },
+          "03f7842b-0b24-419a-a233-f37d3fde0573": {
+            "type": "collection",
+            "settings": {
+              "collection": "swimsuits"
+            }
+          }
+        },
+        "block_order": [
+          "8e6aabae-c7d6-4242-aea9-9bf602a69aab",
+          "107f4094-d221-45e1-9da4-d31bb22d9bdd",
+          "a384f413-c358-4890-a83a-10e7da12ea96",
+          "03f7842b-0b24-419a-a233-f37d3fde0573"
+        ],
+        "settings": {
+          "title": "Shop collection",
+          "detail": "Explore our most recent launches and timeless wardrobe staples"
+        }
+      },
+      "161373804754a31814": {
+        "type": "shop_back",
+        "settings": {
+          "title": "Shop back in stock",
+          "detail": "Explore our most recent launches and timeless wardrobe staples",
+          "collection": "shop-arrivals"
+        }
+      },
+      "161373829945921515": {
+        "type": "sale",
+        "settings": {
+          "img": "shopify:\/\/shop_images\/CAMPAIGN_S21_DEL2-SET18_2_1.jpg",
+          "title": "sale",
+          "discount": "50% off"
+        }
+      },
+      "1613739576ab94998f": {
+        "type": "yaya_newsletter",
+        "settings": {
+          "newsletter_img": "shopify:\/\/shop_images\/image_11.jpg",
+          "detail": "Join our newsletter and keep up to date with our news & exceptional sales."
+        }
+      },
+      "16139712859ba8839f": {
+        "type": "instagram",
+        "blocks": {
+          "bf5f027d-fa74-4e6e-aed4-bfa8333a563d": {
+            "type": "image",
+            "settings": {
+              "insta_image": "shopify:\/\/shop_images\/138969330_123828606232551_3166562880831467469_n.jpg"
+            }
+          },
+          "22415365-31b1-424a-9319-7f39c04e6080": {
+            "type": "image",
+            "settings": {
+              "insta_image": "shopify:\/\/shop_images\/139738894_246236026906043_6510342465083855943_n.jpg"
+            }
+          },
+          "d4918639-8925-4c82-86f7-90d5a9ef776b": {
+            "type": "image",
+            "settings": {
+              "insta_image": "shopify:\/\/shop_images\/139751794_1367211263659295_2929219240996277775_n.jpg"
+            }
+          },
+          "535ffabc-b386-4746-b813-31310bdd45cb": {
+            "type": "image",
+            "settings": {
+              "insta_image": "shopify:\/\/shop_images\/142621564_217350430093215_1042203642992423111_n.jpg"
+            }
+          }
+        },
+        "block_order": [
+          "bf5f027d-fa74-4e6e-aed4-bfa8333a563d",
+          "22415365-31b1-424a-9319-7f39c04e6080",
+          "d4918639-8925-4c82-86f7-90d5a9ef776b",
+          "535ffabc-b386-4746-b813-31310bdd45cb"
+        ],
+        "settings": {
+          "title": "Follow @yaya.thebrand on Instagram",
+          "detail": ""
+        }
+      },
+      "16140528133527379d": {
+        "type": "bg_video",
+        "settings": {
+          "bg_img": "shopify:\/\/shop_images\/CAMPAIGN_S21_DEL2-SET18_2.jpg",
+          "video_link": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc"
+        }
+      },
+      "collection-template": {
+        "type": "collection-template",
+        "blocks": {
+          "9ef02f33-7533-430e-9500-ace9bbbbfecf": {
+            "type": "text",
+            "settings": {
+              "title": "color",
+              "product_list": "red\nblack\nyellow\nblue\ngreen\npurple\nwhite\norange\npink\ngrey"
+            }
+          },
+          "26d18ddf-f8ab-45b2-b4a0-a12eb0a735a2": {
+            "type": "text",
+            "settings": {
+              "title": "size",
+              "product_list": "small\nx-small\nmedium\nlarge\nx-large"
+            }
+          },
+          "40f995cb-4fa0-46e1-b572-8cddd57cbec9": {
+            "type": "text",
+            "settings": {
+              "title": "quality",
+              "product_list": "linnen\ncotton\ncashmere"
+            }
+          },
+          "14723ede-e76d-4560-8890-3ce8a47210c8": {
+            "type": "text",
+            "settings": {
+              "title": "fit",
+              "product_list": "short\ntall\ntight"
+            }
+          }
+        },
+        "block_order": [
+          "9ef02f33-7533-430e-9500-ace9bbbbfecf",
+          "26d18ddf-f8ab-45b2-b4a0-a12eb0a735a2",
+          "40f995cb-4fa0-46e1-b572-8cddd57cbec9",
+          "14723ede-e76d-4560-8890-3ce8a47210c8"
+        ],
+        "settings": {
+          "coll_img": "shopify:\/\/shop_images\/CAMPAIGN_S21_DEL2-SET18_2.jpg"
+        }
+      },
+      "account": {
+        "type": "account",
+        "settings": {
+          "coll_img": "shopify:\/\/shop_images\/image_3.jpg"
+        }
+      },
+      "product-template": {
+        "type": "product-template",
+        "settings": {
+          "show_quantity_selector": false,
+          "show_vendor": false,
+          "enable_payment_button": true,
+          "show_share_buttons": true,
+          "media_size": "medium",
+          "enable_image_zoom": true,
+          "enable_video_looping": false,
+          "size_img": "shopify:\/\/shop_images\/image_34.jpg"
+        }
+      },
+      "product-recommendations": {
+        "type": "product-recommendations",
+        "settings": {
+          "show_product_recommendations": true,
+          "heading": "You may also like",
+          "show_vendor": false
+        }
+      },
+      "1624020093435f6fcc": {
+        "type": "font-picker",
+        "blocks": {
+          "3e464417-f47b-48d6-893b-cf81ffa3d85d": {
+            "type": "text",
+            "settings": {
+              "title": "abc",
+              "fontd": "arapey_n4"
+            }
+          },
+          "e9b82466-5634-4bc0-87a8-3dc531557698": {
+            "type": "text",
+            "settings": {
+              "title": "abc",
+              "fontd": "lobster_n4"
+            }
+          },
+          "bdcf0191-e2ae-4b50-afeb-a6e09c24734c": {
+            "type": "text",
+            "settings": {
+              "title": "abc",
+              "fontd": "arimo_n4"
+            }
+          },
+          "cc0dec6b-d59a-4baf-870c-d181e542cd8d": {
+            "type": "text",
+            "settings": {
+              "title": "abc",
+              "fontd": "beefcakes_n4"
+            }
+          },
+          "faa60bd5-346c-41f5-896d-aab09bbb996e": {
+            "type": "text",
+            "settings": {
+              "title": "abc",
+              "fontd": "arvo_n4"
+            }
+          }
+        },
+        "block_order": [
+          "3e464417-f47b-48d6-893b-cf81ffa3d85d",
+          "e9b82466-5634-4bc0-87a8-3dc531557698",
+          "bdcf0191-e2ae-4b50-afeb-a6e09c24734c",
+          "cc0dec6b-d59a-4baf-870c-d181e542cd8d",
+          "faa60bd5-346c-41f5-896d-aab09bbb996e"
+        ],
+        "settings": {
+        }
+      },
+      "contact-form": {
+        "type": "contact-form",
+        "blocks": {
+          "9c7bc17a-a148-4e33-aa95-3ec0ab45dc57": {
+            "type": "im-interested",
+            "settings": {
+              "title": "Build",
+              "list": "Shopify (Plus) migration,Shopify (Plus),Klaviyo set-up,Ongoing support"
+            }
+          },
+          "a20c325d-4bc5-4690-964e-c20a9926e1f1": {
+            "type": "im-interested",
+            "settings": {
+              "title": "Manage",
+              "list": "Site operations,Strategy,E-mails,Ongoing support"
+            }
+          },
+          "4a0f6d06-88da-41b9-980f-18140fcd1508": {
+            "type": "im-interested",
+            "settings": {
+              "title": "Grow",
+              "list": "Performance marketing,Data analysis,E-mail marketing,Ongoing support"
+            }
+          }
+        },
+        "block_order": [
+          "9c7bc17a-a148-4e33-aa95-3ec0ab45dc57",
+          "a20c325d-4bc5-4690-964e-c20a9926e1f1",
+          "4a0f6d06-88da-41b9-980f-18140fcd1508"
+        ],
+        "settings": {
+        }
+      }
+    },
+    "content_for_index": [
+      "1613564928077a6649",
+      "1624020093435f6fcc",
+      "1613623530bf40c25b",
+      "16136306136fb82e5c",
+      "16137262795884baed",
+      "16140528133527379d",
+      "161373804754a31814",
+      "161373829945921515",
+      "1613739576ab94998f",
+      "16139712859ba8839f"
+    ],
+    "blocks": {
+      "opinew-global-code": {
+        "type": "shopify:\/\/apps\/opinew-product-reviews-app\/blocks\/global\/e1d8e0dc-17ff-4e4a-8a8a-1e73c8ef8676",
+        "disabled": false,
+        "settings": {
+        }
+      },
+      "qikify-quickview-1687856331": {
+        "type": "shopify:\/\/apps\/qikify-quick-view\/blocks\/app-embed\/ce27a8e7-5292-4481-881e-08f2136a4e05",
+        "disabled": false,
+        "settings": {
+        }
+      }
+    }
+  },
+  "presets": {
+    "Default": {
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+          }
+        },
+        "hero-1": {
+          "type": "hero",
+          "settings": {
+            "hero_size": "large",
+            "text_size": "large"
+          }
+        },
+        "feature-row": {
+          "type": "feature-row",
+          "settings": {
+          }
+        },
+        "feature-columns": {
+          "type": "feature-columns",
+          "blocks": {
+            "feature-columns-0": {
+              "type": "text_block",
+              "settings": {
+              }
+            },
+            "feature-columns-1": {
+              "type": "text_block",
+              "settings": {
+              }
+            },
+            "feature-columns-2": {
+              "type": "text_block",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "feature-columns-0",
+            "feature-columns-1",
+            "feature-columns-2"
+          ],
+          "settings": {
+            "title": ""
+          }
+        },
+        "collection": {
+          "type": "collection",
+          "settings": {
+            "grid": 4
+          }
+        },
+        "hero-2": {
+          "type": "hero",
+          "settings": {
+            "text_size": "large"
+          }
+        },
+        "quotes": {
+          "type": "quotes",
+          "blocks": {
+            "quotes-0": {
+              "type": "quote",
+              "settings": {
+              }
+            },
+            "quotes-1": {
+              "type": "quote",
+              "settings": {
+              }
+            },
+            "quotes-2": {
+              "type": "quote",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "quotes-0",
+            "quotes-1",
+            "quotes-2"
+          ],
+          "settings": {
+            "title": ""
+          }
+        },
+        "image-bar": {
+          "type": "image-bar",
+          "blocks": {
+            "image-bar-0": {
+              "type": "image",
+              "settings": {
+              }
+            },
+            "image-bar-1": {
+              "type": "image",
+              "settings": {
+              }
+            },
+            "image-bar-2": {
+              "type": "image",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "image-bar-0",
+            "image-bar-1",
+            "image-bar-2"
+          ],
+          "settings": {
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "link_list",
+              "settings": {
+              }
+            },
+            "footer-1": {
+              "type": "newsletter",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1"
+          ],
+          "settings": {
+            "show_payment_icons": true
+          }
+        }
+      },
+      "content_for_index": [
+        "hero-1",
+        "feature-row",
+        "feature-columns",
+        "collection",
+        "hero-2",
+        "quotes",
+        "image-bar"
+      ]
+    },
+    "Light": {
+      "color_text": "#162950",
+      "color_body_text": "#6d6d6d",
+      "color_sale_text": "#DA2F0C",
+      "color_borders": "#e4e4e4",
+      "color_button": "#DA2F0C",
+      "color_button_text": "#ffffff",
+      "color_small_button_text_border": "#162950",
+      "color_text_field": "#ffffff",
+      "color_text_field_text": "#162950",
+      "color_text_field_border": "#909090",
+      "color_image_overlay_text": "#ffffff",
+      "color_image_overlay": "#3d3d3d",
+      "image_overlay_opacity": 40,
+      "color_body_bg": "#f8f8f8",
+      "type_header_font": "muli_n6",
+      "type_header_base_size": 26,
+      "type_base_font": "muli_n4",
+      "type_base_size": 18,
+      "share_facebook": true,
+      "share_twitter": true,
+      "share_pinterest": true,
+      "social_twitter_link": "",
+      "social_facebook_link": "",
+      "social_pinterest_link": "",
+      "social_instagram_link": "",
+      "social_tumblr_link": "",
+      "social_snapchat_link": "",
+      "social_youtube_link": "",
+      "social_vimeo_link": "",
+      "favicon": "",
+      "checkout_header_image": "",
+      "checkout_logo_image": "",
+      "checkout_logo_position": "left",
+      "checkout_logo_size": "small",
+      "checkout_body_background_image": "",
+      "checkout_body_background_color": "#ffffff",
+      "checkout_input_background_color_mode": "white",
+      "checkout_sidebar_background_image": "",
+      "checkout_sidebar_background_color": "#e8f3f6",
+      "checkout_heading_font": "Roboto",
+      "checkout_body_font": "Source Sans Pro",
+      "checkout_accent_color": "#1990c6",
+      "checkout_button_color": "#23314e",
+      "checkout_error_color": "#ff6d6d",
+      "sections": {
+        "header": {
+          "type": "header",
+          "settings": {
+            "align_logo": "left",
+            "logo": "",
+            "logo_max_width": 135,
+            "main_linklist": "main-menu",
+            "message": true,
+            "color_bg": "#162950",
+            "color_text": "#ffffff"
+          }
+        },
+        "hero": {
+          "type": "hero",
+          "settings": {
+            "alignment": "center",
+            "hero_size": "x-large",
+            "text_size": "large"
+          }
+        },
+        "slideshow": {
+          "type": "slideshow",
+          "blocks": {
+            "slideshow-0": {
+              "type": "image",
+              "settings": {
+                "image": "",
+                "alignment": "center center"
+              }
+            },
+            "1492095993817": {
+              "type": "image",
+              "settings": {
+                "image": "",
+                "alignment": "center"
+              }
+            }
+          },
+          "block_order": [
+            "slideshow-0",
+            "1492095993817"
+          ],
+          "settings": {
+            "slideshow_height": "medium",
+            "text_size": "medium",
+            "autorotate": false,
+            "autorotate_speed": 5
+          }
+        },
+        "featured-collections": {
+          "type": "collection",
+          "settings": {
+            "grid": 3,
+            "rows": 1,
+            "show_vendor": true,
+            "show_view_all": true
+          }
+        },
+        "product-template": {
+          "type": "product-template",
+          "settings": {
+            "show_quantity_selector": false,
+            "show_vendor": false,
+            "show_share_buttons": true,
+            "media_size": "medium",
+            "enable_image_zoom": true,
+            "enable_video_looping": false
+          }
+        },
+        "collection-template": {
+          "type": "collection-template",
+          "settings": {
+          }
+        },
+        "1492033809691": {
+          "type": "map",
+          "settings": {
+          }
+        },
+        "1492033877875": {
+          "type": "quotes",
+          "blocks": {
+            "1492033877875-0": {
+              "type": "quote",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "1492033877875-0"
+          ],
+          "settings": {
+          }
+        },
+        "1492033924902": {
+          "type": "custom-content",
+          "blocks": {
+            "1492033924902-0": {
+              "type": "text",
+              "settings": {
+                "width": "100%",
+                "alignment": "center",
+                "align_text": "center"
+              }
+            }
+          },
+          "block_order": [
+            "1492033924902-0"
+          ],
+          "settings": {
+            "title": ""
+          }
+        },
+        "1492096252560": {
+          "type": "collection-list",
+          "blocks": {
+            "1492096252560-0": {
+              "type": "featured_collection",
+              "settings": {
+              }
+            },
+            "1492096252560-1": {
+              "type": "featured_collection",
+              "settings": {
+              }
+            },
+            "1492096252560-2": {
+              "type": "featured_collection",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "1492096252560-0",
+            "1492096252560-1",
+            "1492096252560-2"
+          ],
+          "settings": {
+            "grid": 3
+          }
+        },
+        "blog-template": {
+          "type": "blog-template",
+          "settings": {
+            "layout": "grid",
+            "blog_show_author": true,
+            "blog_show_date": false
+          }
+        },
+        "article-template": {
+          "type": "article-template",
+          "settings": {
+            "blog_show_author": true,
+            "blog_show_date": true,
+            "show_share_buttons": true
+          }
+        },
+        "cart-template": {
+          "type": "cart-template",
+          "settings": {
+            "cart_notes_enable": false
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "link_list": {
+              "type": "link_list",
+              "settings": {
+              }
+            },
+            "text": {
+              "type": "text",
+              "settings": {
+              }
+            },
+            "newsletter": {
+              "type": "newsletter",
+              "settings": {
+              }
+            }
+          },
+          "block_order": [
+            "link_list",
+            "text",
+            "newsletter"
+          ],
+          "settings": {
+            "color_footer_bg": "#f8f8f8",
+            "color_footer_text": "#6d6d6d"
+          }
+        }
+      },
+      "content_for_index": [
+        "hero",
+        "featured-collections",
+        "slideshow",
+        "1492033924902",
+        "1492096252560",
+        "1492033877875",
+        "1492033809691"
+      ]
+    }
+  }
+}

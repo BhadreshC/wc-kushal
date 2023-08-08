@@ -1,0 +1,133 @@
+<div class="wrap_block shop_arrival">
+  <div class="shop_arrival_heading text-center">
+    {%- if section.settings.title != '' -%}<h2 class="d-inline-block">{{ section.settings.title }}</h2>{%- endif -%}
+    <a href="#">
+      <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1L14 8L7 15M-6.11959e-07 8L14 8L-6.11959e-07 8Z" stroke="black"/>
+      </svg>
+    </a>
+    {%- if section.settings.detail != '' -%}<p>{{ section.settings.detail }}</p>{%- endif -%}
+  </div>
+
+  <div class="get_look_slider product_items">
+    {%- for block in section.blocks -%}
+    <div class="col-lg-6">
+      {%- assign collection = collections[block.settings.collection] -%}
+
+      {% if collection.image %}
+      {%- assign collection_image = collection.image -%}
+      {% elsif collection.products.first and collection.products.first.media != empty %}
+      {%- assign collection_image = collection.products.first.featured_media.preview_image -%}
+      {% else %}
+      {% assign collection_image = blank %}
+      {% endif %}
+
+      <div class="collection-grid-item mb-0">
+        <a href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}" class="collection-grid-item__link">
+          {% unless collection_image == blank %}
+          <div class="collection-grid-item__overlay box ratio-container lazyload js"
+               data-bgset="{% include 'bgset', image: collection_image %}"
+               data-sizes="auto"
+               data-parent-fit="cover"
+               data-image-loading-animation>
+          </div>
+          {% endunless %}
+        </a>
+      </div>
+
+      <div class="get_look_des description-{{ block.settings.alignment }}">
+        {%- if collection.title != '' -%}<h3 class="pb-2">{{ collection.title }}</h3>{%- endif -%}
+        <a href="#">shop now</a>
+      </div>
+
+    </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Get the Look",
+    "settings": [
+		{
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+        },
+		{
+            "type": "text",
+            "id": "detail",
+            "label": "Detail"
+        }
+	],
+	"blocks": [
+    {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+			"type": "collection",
+			 "id": "collection",
+            "label": "Collection"
+          },
+		  {
+              "type": "select",
+              "id": "alignment",
+              "label": "Text alignment",
+              "default": "center-center",
+              "options": [
+                {
+                  "value": "top-left",
+                  "label": "Top Left"
+                },
+                {
+                  "value": "top-center",
+                  "label": "Top Center"
+                },
+                {
+                  "value": "top-right",
+                  "label": "Top Right"
+                },
+                {
+                  "value": "center-left",
+                  "label": "Center Left"
+                },
+                {
+                  "value": "center-center",
+                  "label": "Center Center"
+                },
+                {
+                  "value": "center-right",
+                  "label": "Center Right"
+                },
+                {
+                  "value": "bottom-left",
+                  "label": "Bottom Left"
+                },
+                {
+                  "value": "bottom-center",
+                  "label": "Bottm Center"
+                },
+                {
+                  "value": "bottom-right",
+                  "label": "Bottom Right"
+                }
+              ]
+          }
+        ]
+      }
+    ],
+	"presets": [
+      {
+        "name": "Get the Look",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

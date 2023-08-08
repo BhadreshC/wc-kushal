@@ -1,0 +1,90 @@
+<div class="wrap_block">
+  <div class="shop_arrival_heading text-center">
+    {%- if section.settings.title != '' -%}<h2 class="d-inline-block">{{ section.settings.title }}</h2>{%- endif -%}
+    <a href="#">
+      <svg width="15" height="16" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 1L14 8L7 15M-6.11959e-07 8L14 8L-6.11959e-07 8Z" stroke="black"/>
+      </svg>
+    </a>
+    {%- if section.settings.detail != '' -%}<p>{{ section.settings.detail }}</p>{%- endif -%}
+  </div>
+  
+  <div class="shop_coll_slider product_items">
+    {%- for block in section.blocks -%}
+    <div class="col-lg-4">
+      {%- assign collection = collections[block.settings.collection] -%}
+
+      {% if collection.image %}
+      {%- assign collection_image = collection.image -%}
+      {% elsif collection.products.first and collection.products.first.media != empty %}
+      {%- assign collection_image = collection.products.first.featured_media.preview_image -%}
+      {% else %}
+      {% assign collection_image = blank %}
+      {% endif %}
+
+      <div class="collection-grid-item mb-0">
+        <a href="{% if collection.products == empty %}#{% else %}{{ collection.url }}{% endif %}" class="collection-grid-item__link">
+          {% unless collection_image == blank %}
+          <div class="collection-grid-item__overlay box ratio-container lazyload js"
+               data-bgset="{% include 'bgset', image: collection_image %}"
+               data-sizes="auto"
+               data-parent-fit="cover"
+               data-image-loading-animation>
+          </div>
+          {% endunless %}
+        </a>
+      </div>
+
+      <div class="shop_collection">
+        {%- if collection.title != '' -%}<h3>{{ collection.title }}</h3>{%- endif -%}
+        {%- if collection.description != '' -%}<p>{{ collection.description }}</p>{%- endif -%}
+      </div>
+
+    </div>
+    {%- endfor -%}
+  </div>
+  
+</div>
+
+{% schema %}
+  {
+    "name": "Shop Collection",
+    "settings": [
+		{
+            "type": "text",
+            "id": "title",
+            "label": "Heading"
+        },
+		{
+            "type": "text",
+            "id": "detail",
+            "label": "Detail"
+        }
+	],
+	"blocks": [
+    {
+        "type": "collection",
+        "name": "Collection",
+        "settings": [
+          {
+			"type": "collection",
+			 "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+	"presets": [
+      {
+        "name": "Shop Collection",
+        "category": "Collection"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

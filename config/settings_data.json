@@ -27,7 +27,6 @@
       },
       "feature-columns": {
         "type": "feature-columns",
-        "disabled": true,
         "blocks": {
           "feature-columns-0": {
             "type": "text_block",
@@ -62,6 +61,7 @@
           "feature-columns-1",
           "feature-columns-2"
         ],
+        "disabled": true,
         "settings": {
           "title": "",
           "align_text": "left"
@@ -81,7 +81,6 @@
       },
       "quotes": {
         "type": "quotes",
-        "disabled": true,
         "blocks": {
           "quotes-0": {
             "type": "quote",
@@ -110,13 +109,13 @@
           "quotes-1",
           "quotes-2"
         ],
+        "disabled": true,
         "settings": {
           "title": ""
         }
       },
       "image-bar": {
         "type": "image-bar",
-        "disabled": true,
         "blocks": {
           "image-bar-0": {
             "type": "image",
@@ -145,6 +144,7 @@
           "image-bar-1",
           "image-bar-2"
         ],
+        "disabled": true,
         "settings": {
           "section_height": "medium"
         }
@@ -595,6 +595,12 @@
       },
       "qikify-quickview-1687856331": {
         "type": "shopify:\/\/apps\/qikify-quick-view\/blocks\/app-embed\/ce27a8e7-5292-4481-881e-08f2136a4e05",
+        "disabled": false,
+        "settings": {
+        }
+      },
+      "2369874457889669609": {
+        "type": "shopify:\/\/apps\/rebolt-bundle-products\/blocks\/app-embed\/0a9e67ff-0413-4374-921d-e70fb17c7dbc",
         "disabled": false,
         "settings": {
         }
